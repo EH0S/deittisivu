@@ -27,11 +27,12 @@
             ottaa kantaa asioihin, valitse "Äänestäjä".
         </p>
         <select id="rooli" class="p-1 mt-1 mb-3 rounded">
-            <option value="yllapitaja">Ylläpitäjä</option>
             <option value="aanestaja">Äänestäjä</option>
         </select>
-        <p>Käyttäjänimesi: <input type="text" size="20" maxlength="20" id="uusiKayttajaNimi" class="m-1 rounded"></p>
-        <p>Salasanasi: <input type="password" size="10" maxlength="10" id="uusiSalasana" class="m-1 rounded"></p>
+        <p>Koko Nimi: <input type="text" size="20" maxlength="20" id="uusiKayttajaNimi" class="m-1 rounded"></p>
+        <p>Salasanasi: <input type="password" size="10" maxlength="50" id="uusiSalasana" class="m-1 rounded"></p>
+        <p>Sähköposti: <input type="text" size="10" maxlength="100" id="sposti" class="m-1 rounded"></p>
+        <p>Puhelinnumero: <input type="text" size="10" maxlength="10" id="puh" class="m-1 rounded"></p>
         <button onclick="vahvistaKayttaja()" class="mx-1 p-2 bg-warning rounded">Vahvista</button>
         <button onclick="peruutaAlkuun()" class="mx-1 p-2 bg-success rounded">Peruuta</button>
     </section>

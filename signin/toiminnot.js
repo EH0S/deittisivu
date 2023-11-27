@@ -41,16 +41,23 @@ function vahvistaKayttaja(){
     let rooli = document.getElementById("rooli").value;
     let nimi = document.getElementById("uusiKayttajaNimi").value;
     let sana = document.getElementById("uusiSalasana").value;
+    let puhelin = document.getElementById("puh").value;
+    let sahkoposti = document.getElementById("sposti").value;
     if(nimi.length < 3 || nimi.length > 20 || nimi.includes(" ") || nimi.includes(";") || nimi.includes("&") || nimi.includes("*") || nimi.includes("¤")){
         inforuutu.innerHTML = " Nimen minimipituus on 3 ja maksimipituus 20 merkkiä. Älä käytä välilyöntiä, puolipistettä, &-, ¤- tai *-merkkejä.";
         document.getElementById("uusiKayttajaNimi").value = "";
     }  else if(sana.length < 3 || sana.includes(";")){
         inforuutu.innerHTML = "Salasanassa tulee olla vähintään 3 merkkiä eikä se saa sisältää puolipisteitä. Sen maksimipituus on 10 merkkiä.";
         document.getElementById("uusiSalasana").value = "";
-    } else {
+    }  else if(puhelin.length < 9 || puhelin.includes(";")){
+        inforuutu.innerHTML = "Puhelin numerossa tulee olemaan vähintään 9 numeroa";
+        document.getElementById("puh").value = "";
+    }   else {
         localStorage.setItem(nimi, nimi);
         localStorage.setItem(nimi + ";&", rooli);
         localStorage.setItem(nimi + ";*", sana);
+        localStorage.setItem(nimi + ";/", puhelin);
+        localStorage.setItem(nimi + ";%", sahkoposti);
         document.getElementById("etusivu").style.display = "block";
         document.getElementById("kayttajanLuominen").style.display = "none";
         inforuutu.innerHTML = `Käyttäjä <b>${nimi}</b> luotu!`;
