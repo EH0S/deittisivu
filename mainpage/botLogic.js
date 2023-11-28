@@ -1,5 +1,5 @@
-import testingProfiles from './userHandle.js';
-
+import testingProfiles from './shared.js';
+import {findProfileByIndex} from './shared.js';
 
 
 
@@ -11,7 +11,7 @@ const greetingsTable = [
 ];
 
 const insultsTable = [
-    // ... your insults messages
+    
 ];
 
 
