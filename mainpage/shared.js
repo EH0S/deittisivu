@@ -7,6 +7,12 @@ const testingProfiles = [
 export default testingProfiles;
 
 
+const yourProfile = [
+    {username: 'juha', bio: 'rauhallisesti elämässä eteenpäi!', pfp: 'https://cdn.discordapp.com/attachments/952836235708235780/1095536926724997210/download.jpg?ex=656fdd45&is=655d6845&hm=e3c52f54eb263e62f90bf0d26ea7a48f4331dfc7f883b5d034d727203d350537&'}
+    ];
+export  {yourProfile}
+
+
 function findProfileByIndex(contact){
     return testingProfiles.findIndex(item => item.username === contact);
 }
@@ -26,12 +32,12 @@ function filterChatByName(contact,victim){
             
            let yourMessages = loadMessages.filter(message => message.sender === victim);
            let yourSentMessagesString = yourMessages.map(msg => msg.message)
+           let yourLatestMessage = yourSentMessagesString[yourSentMessagesString.length - 1]
            if (yourSentMessagesString.length < 1){
             yourSentMessagesString = 'NONE';
             return sentMessages;
            }
-           let yourSentMessages = `${victim}'s messages: \n----------\n${yourSentMessagesString}\n----------\n`
-           
+           let yourSentMessages = `${victim}'s messages: \n----------\n${yourSentMessagesString}\n----------\nLatest message:\n----------\n` + yourLatestMessage
             return sentMessages + yourSentMessages;
         } else {
             console.log('Loaded data is not an array');
@@ -42,5 +48,40 @@ function filterChatByName(contact,victim){
         return []; 
     }
 }
+export {filterChatByName}
+function getLatestMessage(contact,victim){
+    let target;
+    let storedData = localStorage.getItem('chat-' + contact);
+    if (storedData){
+        let loadMessages = JSON.parse(storedData);
+        if (victim === undefined){
+            target = contact;
+        }
+        else {
+            target = victim;
+        }
+        let yourMessages = loadMessages.filter(message => message.sender === target);
+        let yourSentMessagesString = yourMessages.map(msg => msg.message)
+        let yourLatestMessage = yourSentMessagesString[yourSentMessagesString.length - 1]
+    return yourLatestMessage;
+    }
+    
+}
+export {getLatestMessage}
 
-export {filterChatByName};
+function getMessageCount(contact,victim){
+    let storedData = localStorage.getItem('chat-' + contact);
+    let target;
+    if (storedData){
+        let loadMessages = JSON.parse(storedData);
+        if (victim === undefined){
+            target = contact;
+        }
+        else{
+            target = victim;
+        }
+        let messageCount = loadMessages.filter(message => message.sender === target).length;
+    return messageCount;
+    }
+}
+export {getMessageCount}

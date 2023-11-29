@@ -1,17 +1,17 @@
 
 import testingProfiles from './shared.js';
-import logic from './logic.js';
-const openChat = logic.openChat;
 
+import {openChat} from './logic.js'
 
 
 import { determineMessage} from './botLogic.js';
 import { determineContact} from './botLogic.js';
 import { updateChatMessagesDisplay } from './logic.js';
 
-
-
-
+import { getLatestMessage } from './shared.js';
+import { yourProfile } from './shared.js';
+import { startConversation } from './botLogic.js';
+import { botMessages } from './botLogic.js';
 
 
 
@@ -47,31 +47,19 @@ function createContact(username, pfp) {
 }
 
 let testButton = document.getElementById('test');
+let startButton = document.getElementById('start');
 
 
-function botMessages() {
-    let contact = determineContact();
-    var message = determineMessage();
 
-    var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
 
-    chatData.push({
-        sender: contact,
-        message: message,
-        timestamp: new Date().toISOString()
-    });
 
-    
-    localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
-
-    updateChatMessagesDisplay(contact);
-
-    pushNotify(contact, message);
-}
-export default {botMessages};
 
 testButton.onclick = function() {
     botMessages();
+}
+startButton.onclick = function(){
+    // this function will execute when new match is found
+    startConversation(determineContact());
 }
 
 
@@ -94,3 +82,5 @@ function pushNotify(username,message) {
       position: 'x-center '
     })
   }
+
+export {pushNotify}

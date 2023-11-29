@@ -3,14 +3,12 @@
 let testButton = document.getElementById('test');
 import testingProfiles from './shared.js';
 import {findProfileByIndex} from './shared.js';
-import { filterChatByName } from './shared.js';
+import {filterChatByName} from './shared.js';
+import { getLatestMessage } from './shared.js';
+import {botMessages} from './botLogic.js'
+import { yourProfile } from './shared.js';
 
-
-
-
-const yourProfile = [
-{username: 'juha', bio: 'rauhallisesti elämässä eteenpäi!', pfp: 'https://cdn.discordapp.com/attachments/952836235708235780/1095536926724997210/download.jpg?ex=656fdd45&is=655d6845&hm=e3c52f54eb263e62f90bf0d26ea7a48f4331dfc7f883b5d034d727203d350537&'}
-];
+import { getMessageCount } from './shared.js';
 
 
 function openChat(contact) {
@@ -39,7 +37,7 @@ function openChat(contact) {
 
         var sendButton = document.createElement("button");
         sendButton.textContent = "Send";
-        sendButton.onclick = function() { appendMessage(contact); };
+        sendButton.onclick = function() { appendMessage(contact); {botMessages();}};
         chatWindow.appendChild(sendButton);
 
         document.getElementById('chat-container').appendChild(chatWindow);
@@ -57,8 +55,10 @@ function openChat(contact) {
     updateChatMessagesDisplay(contact);
     console.log(contact+"'s index in array is",findProfileByIndex(contact));
     console.log(filterChatByName(contact,`${yourProfile[0].username}`));
+    //console.log(getLatestMessage(contact,yourProfile[0].username))
+    console.log(getMessageCount(contact));
 }
-export default {openChat};
+export {openChat};
 
 
 
