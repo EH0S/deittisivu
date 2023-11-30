@@ -3,7 +3,12 @@ module.exports = {
   content: ["./src/tailwind.css", "./dist/*"],
   theme: {
     extend: {},
+    
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss'),
+    require('tailwindcss-gradients'),
+    // ... other plugins
+  ],
 }
 
