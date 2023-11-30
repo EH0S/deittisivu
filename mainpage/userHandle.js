@@ -12,11 +12,14 @@ import { getLatestMessage } from './shared.js';
 import { yourProfile } from './shared.js';
 import { startConversation } from './botLogic.js';
 import { botMessages } from './botLogic.js';
+import {loadChats} from './logic.js';
 
 
-
-for (var i = 0; i < testingProfiles.length; i++) {
+// reversing array
+for (var i = testingProfiles.length - 1; i >= 0; i--) {
+    loadChats(testingProfiles[i].username);
     createContact(testingProfiles[i].username, testingProfiles[i].pfp);
+
 }
 
 function createContact(username, pfp) {
@@ -38,8 +41,9 @@ function createContact(username, pfp) {
     
     contact.onclick = function() {
         openChat(username);
+        //loadChats(username)
     };
-    openChat(username);
+    //openChat(username);
     contact.appendChild(img);
     contact.appendChild(usernameSpan);
     
@@ -55,7 +59,8 @@ let startButton = document.getElementById('start');
 
 
 testButton.onclick = function() {
-    botMessages();
+    //botMessages();
+    
 }
 startButton.onclick = function(){
     // this function will execute when new match is found
