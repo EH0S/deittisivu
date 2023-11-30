@@ -67,8 +67,9 @@ function vahvistaKayttaja(){
     let sahposti = document.getElementById("sposti").value;
     let sana = document.getElementById("uusiSalasana").value;
     let puhelin = document.getElementById("puh").value;
-    let kuva = document.getElementById("thumbnail").value;
+    let kuva = document.getElementById("thumbnailRegister").value;
     let sahkoposti = document.getElementById("sposti").value;
+
     if(nimi.length < 3 || nimi.length > 20 || nimi.includes(" ") || nimi.includes(";") || nimi.includes("&") || nimi.includes("*") || nimi.includes("¤")){
         inforuutu.innerHTML = " Nimen minimipituus on 3 ja maksimipituus 20 merkkiä. Älä käytä välilyöntiä, puolipistettä, &-, ¤- tai *-merkkejä.";
         document.getElementById("uusiKayttajaNimi").value = "";
@@ -84,7 +85,26 @@ function vahvistaKayttaja(){
         localStorage.setItem(nimi + ";*", sana);
         localStorage.setItem(nimi + ";/", puhelin);
         localStorage.setItem(nimi + ";%", sahposti);
-        //localStorage.setItem(nimi + ";$", kuva);
+        
+        let kuva = document.getElementById("thumbnailRegister").value;
+        // Check if an image is selected
+        if (kuva) {
+            const input = document.getElementById('thumbnailRegister');
+            const image = input.files[0];
+            const reader = new FileReader();
+            const previewImage = document.getElementById('preview1'); // Image preview element
+    
+            reader.onload = function(event) {
+                // Display image preview
+                previewImage.setAttribute('src', event.target.result);
+                localStorage.setItem(nimi + ";$", event.target.result);
+
+            };
+    
+            // Read the image file as a data URL
+            reader.readAsDataURL(image);
+        }
+
         document.getElementById("etusivu").style.display = "block";
         document.getElementById("kayttajanLuominen").style.display = "none";
         inforuutu.innerHTML = `Käyttäjä <b>${nimi}</b> luotu!`;
@@ -105,14 +125,16 @@ function kirjauduUlos(){
     inforuutu.innerHTML = `<b>${kirjautunut}</b> kirjattu ulos, näkemiin!`;
     kirjautunut = null;
     document.getElementById("etusivu").style.display = "block";
-    document.getElementById("aanestajanEtusivu").style.display = "none";
+    //document.getElementById("aanestajanEtusivu").style.display = "none";
     document.getElementById("yllapitajanEtusivu").style.display = "none";
     document.getElementById("miessivut").style.display = "none";
     document.getElementById("Muokkaus").style.display = "none";
+    document.getElementById("editor").style.display = "none";
 }
 
-function muokkaa(){
-
+function editoi(){
+    document.getElementById("miessivut").style.display = "none";
+    document.getElementById("editor").style.display = "block";
 }
 
 function luoAanestys(){
@@ -137,7 +159,7 @@ function peruutaEtusivulle(){
 }
 
 function tallenna() {
-    let nimi = kirjautunut
+    let nimi = kirjautunut;
     let tallennettuNimi = localStorage.getItem(nimi);
     let uusposti = document.getElementById("sposti1").value;
     let kerro = document.getElementById("kerro").value;
@@ -145,8 +167,24 @@ function tallenna() {
     localStorage.setItem(tallennettuNimi + ";%", uusposti);
     localStorage.setItem(tallennettuNimi + ";€", kerro);
 
-    document.getElementById("miessivut").style.display = "block";
-    
+    const input = document.getElementById('thumbnail');
+
+    if (input.files && input.files[0]) {
+        const image = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            localStorage.setItem(nimi + ";$", event.target.result);
+
+            // Update the preview image
+            const previewImage = document.getElementById('preview');
+            previewImage.setAttribute('src', event.target.result);
+
+            console.log("Profile picture updated for", nimi);
+        };
+
+        reader.readAsDataURL(image);
+    }
 }
 
 const input = document.getElementById('thumbnail')
@@ -168,6 +206,8 @@ input.addEventListener('change', (event) => {
     reader.addEventListener('load', () => {
         // Save data URL to local storage
         localStorage.setItem(nimi + ";$", reader.result)
+        localStorage.setItem(nimi2 + ";$", reader.result)
+        console.log(nimi2);
     })
 })
 
