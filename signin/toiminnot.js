@@ -93,14 +93,17 @@ function vahvistaKayttaja(){
             const image = input.files[0];
             const reader = new FileReader();
             const previewImage = document.getElementById('preview1'); // Image preview element
-    
+
             reader.onload = function(event) {
                 // Display image preview
+                //console.log(event.target.result); // Check the data URL in the console
                 previewImage.setAttribute('src', event.target.result);
                 localStorage.setItem(nimi + ";$", event.target.result);
-
+                previewImage.onload = function() {
+                    this.style.display = 'block'; // Display the image element
+                };
             };
-    
+        
             // Read the image file as a data URL
             reader.readAsDataURL(image);
         }
@@ -110,6 +113,60 @@ function vahvistaKayttaja(){
         inforuutu.innerHTML = `Käyttäjä <b>${nimi}</b> luotu!`;
         document.getElementById("uusiKayttajaNimi").value = "";
         document.getElementById("uusiSalasana").value = "";
+    }
+}
+
+
+
+
+
+const input1 = document.getElementById('thumbnailRegister')
+
+// List to change event on the input element to get the image file
+input1.addEventListener('change', (event) => {
+    const image = event.target.files[0]
+
+    // Create file reader object
+    const reader = new FileReader()
+
+    // Convert image to data URL
+    reader.readAsDataURL(image)
+
+    reader.addEventListener('load', () => {
+        // Save data URL to local storage
+        localStorage.setItem('thumbnailRegister', reader.result)
+    })
+})
+
+// Loading the stored image to the web page
+document.addEventListener('DOMContentLoaded', () => {
+    // Get the image (data URL) from local storage
+    const thumbnailRegister = localStorage.getItem('thumbnailRegister')
+
+    const previewImage = document.getElementById('preview1')
+
+    if (thumbnailRegister) {
+        // If there is an image in the local storage, set the data URL as the src attribute value
+        previewImage.setAttribute('src', thumbnailRegister)
+    } else {
+        // If there is no image in the local storeage, you can display a default image (Optional)
+        previewImage.setAttribute('src', 'default.jpg')
+    }
+
+    // Reload the image element to ensure the stored image is displayed
+})
+
+function Paivita(){
+    const thumbnailRegister = localStorage.getItem('thumbnailRegister')
+
+    const previewImage = document.getElementById('preview1')
+
+    if (thumbnailRegister) {
+        // If there is an image in the local storage, set the data URL as the src attribute value
+        previewImage.setAttribute('src', thumbnailRegister)
+    } else {
+        // If there is no image in the local storeage, you can display a default image (Optional)
+        previewImage.setAttribute('src', 'default.jpg')
     }
 }
 
@@ -135,6 +192,11 @@ function kirjauduUlos(){
 function editoi(){
     document.getElementById("miessivut").style.display = "none";
     document.getElementById("editor").style.display = "block";
+}
+
+function palaa(){
+    document.getElementById("miessivut").style.display = "block";
+    document.getElementById("editor").style.display = "none";
 }
 
 function luoAanestys(){
@@ -194,7 +256,6 @@ input.addEventListener('change', (event) => {
     
     let nimi = document.getElementById("uusiKayttajaNimi").value;
     let nimi2 = document.getElementById("kayttajaNimi").value;
-    let tallennettuNimi = localStorage.getItem(nimi);
     const image = event.target.files[0]
 
     // Create file reader object
