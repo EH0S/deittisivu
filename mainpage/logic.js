@@ -7,61 +7,76 @@ import {filterChatByName} from './shared.js';
 import { getLatestMessage } from './shared.js';
 import {botMessages} from './botLogic.js'
 import { yourProfile } from './shared.js';
-
+import {enableLogs} from './shared.js';
 import { getMessageCount } from './shared.js';
 
 
 function openChat(contact) {
    
     var chatWindow = document.getElementById('chat-' + contact);
-
-    if (!chatWindow) {
-        chatWindow = document.createElement('div');
-        chatWindow.setAttribute('id', 'chat-' + contact);
-        chatWindow.classList.add('chat-window');
-
-        var chatHeader = document.createElement("h2");
-        chatHeader.textContent = "Chat with " + contact;
-        chatWindow.appendChild(chatHeader);
-
-        var chatMessagesDiv = document.createElement("div");
-        chatMessagesDiv.id = 'chatMessages-' + contact;
-        chatWindow.appendChild(chatMessagesDiv);
-
-        var chatInput = document.createElement("input");
-        chatInput.type = "text";
-        chatInput.id = 'chatInput-' + contact;
-        chatInput.setAttribute('maxlength',60);
-        chatInput.placeholder = "Type a message...";
-        chatWindow.appendChild(chatInput);
-
-        var sendButton = document.createElement("button");
-        sendButton.textContent = "Send";
-        sendButton.onclick = function() { appendMessage(contact); {botMessages();}};
-        chatWindow.appendChild(sendButton);
-
-        document.getElementById('chat-container').appendChild(chatWindow);
-        
-    }
-
     const chatWindows = document.getElementsByClassName('chat-window');
     for (let i = 0; i < chatWindows.length; i++) {
         chatWindows[i].style.display = 'none';
+        //console.log("hiding chat window...",chatWindows[i])
     }
 
     chatWindow.style.display = 'block';
-
+    //console.log(contact+"'s index in array is",findProfileByIndex(contact));
    
     updateChatMessagesDisplay(contact);
-    console.log(contact+"'s index in array is",findProfileByIndex(contact));
+    if (enableLogs){
+    
     console.log(filterChatByName(contact,`${yourProfile[0].username}`));
     //console.log(getLatestMessage(contact,yourProfile[0].username))
-    console.log(getMessageCount(contact));
+    //console.log(getMessageCount(contact));
+    }
 }
 export {openChat};
 
+function loadChats(contact){
 
+        var chatWindow = document.getElementById('chat-' + contact);
 
+        if (!chatWindow) {
+            chatWindow = document.createElement('div');
+            chatWindow.setAttribute('id', 'chat-' + contact);
+            chatWindow.classList.add('chat-window');
+    
+            var chatHeader = document.createElement("h2");
+            chatHeader.textContent = "Chat with " + contact;
+            chatWindow.appendChild(chatHeader);
+    
+            var chatMessagesDiv = document.createElement("div");
+            chatMessagesDiv.id = 'chatMessages-' + contact;
+            chatWindow.appendChild(chatMessagesDiv);
+    
+            var chatInput = document.createElement("input");
+            chatInput.type = "text";
+            chatInput.id = 'chatInput-' + contact;
+            chatInput.setAttribute('maxlength',60);
+            chatInput.placeholder = "Type a message...";
+            chatWindow.appendChild(chatInput);
+    
+            var sendButton = document.createElement("button");
+            sendButton.textContent = "Send";
+            sendButton.onclick = function() { appendMessage(contact); {botMessages(contact);}};
+            chatWindow.appendChild(sendButton);
+    
+            document.getElementById('chat-container').appendChild(chatWindow);
+            
+        }
+    
+        console.log(contact+"'s index in array is",findProfileByIndex(contact));
+
+        // display latest contact chat
+        if(findProfileByIndex(contact) == testingProfiles.length -1){
+            chatWindow.style.display = 'block';
+
+            updateChatMessagesDisplay(contact);
+        }
+       
+}
+export {loadChats}
 
 // OLD CODE
 // function appendMessage(contact) {
