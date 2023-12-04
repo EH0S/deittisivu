@@ -1,9 +1,11 @@
-import testingProfiles from './shared.js';
+import testingProfiles, { getMessageCount } from './shared.js';
 import {findProfileByIndex} from './shared.js';
 import {pushNotify} from './userHandle.js';
 import {updateChatMessagesDisplay} from './logic.js';
 import { getLatestMessage } from './shared.js';
 import {yourProfile} from './shared.js';
+import {enableAttention} from './shared.js';
+import {enableLogs} from './shared.js';
 
 const greetingsTable = [
     "moiksuuu",
@@ -74,29 +76,29 @@ function startConversation(contact){
     updateChatMessagesDisplay(contact);
 
     pushNotify(contact, message);
-    attentionCheck(contact);
+    console.log("hihihh", testingProfiles.findIndex(contact));
+    if (enableAttention){
+        attentionCheck(contact);
+    }
+    
 }
 export {startConversation}
 // TODO: LOGIC TO DETERMINE STUFF
 
 function attentionCheck(contact){
     const attentionTime = 5;
+    let yourMsgCount = getMessageCount(contact,yourProfile[0].username);
+    let contactMsgCount = getMessageCount(contact);
     setTimeout(() => {
-        if (getLatestMessage(contact,yourProfile[0].username) === undefined){
-            sendBotMsg(contact,insultsTable[Math.floor(Math.random() * insultsTable.length)]);
-            //console.log("no past messages from juha");
-            return
-        }
-
-        setTimeout(() => {
-            if (getLatestMessage(contact,yourProfile[0].username) !== getLatestMessage(contact)){
+            if (yourMsgCount !== contactMsgCount){
+                if (enableLogs){
+                    console.log("yourmsgCount:",getMessageCount(contact,yourProfile[0].username));
+                    console.log("contactmsgCount:",getMessageCount(contact));
+                }
+                
                 sendBotMsg(contact,insultsTable[Math.floor(Math.random() * insultsTable.length)]);
                 return
             }    
-        }, attentionTime * 1000);
-        
-
-
 
 
         //console.log("HIHII",getLatestMessage(contact,yourProfile[0].username));
@@ -137,22 +139,33 @@ function sendBotMsg(contact,msg){
     localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
 
     updateChatMessagesDisplay(contact);
-
+    
     pushNotify(contact, message);
 }
 export {sendBotMsg};
 
 function determineContact() {
     //testingProfiles[Math.floor(Math.random() * testingProfiles.length)].username;
-    return testingProfiles[0].username;
+    if (enableAttention){
+        return testingProfiles[0].username;
+    }
+    return testingProfiles[Math.floor(Math.random() * testingProfiles.length)].username;
+    
     
 }
 export {determineContact};
 
-function botMessages() {
-    let contact = determineContact();
+function botMessages(contact) {
+   // let contact = //determineContact();
     var message = determineMessage(getLatestMessage(contact,yourProfile[0].username),);
-    attentionCheck(contact);
+    if (enableAttention){
+        if (enableLogs){
+        console.log("triggered attentionCheck");
+        }
+        attentionCheck(contact);
+    }
+    
+    
     var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
 
     chatData.push({
@@ -165,7 +178,6 @@ function botMessages() {
     localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
 
     updateChatMessagesDisplay(contact);
-
     pushNotify(contact, message);
 }
 export {botMessages}

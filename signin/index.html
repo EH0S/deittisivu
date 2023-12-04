@@ -28,15 +28,14 @@
         </p>
         <body>
             <h1>Save Image to localStorage</h1>
-
             <div>
-                <img id="preview" src="" alt="thumbnail">
+                <img id="preview1" src="" alt="thumbnailRegister">
             </div>
-            <input type="file" id="thumbnail">
+            <input type="file" id="thumbnailRegister">
+            <button onclick="Paivita()">Päivitä</button>
         
         </body>
         <select id="rooli" class="p-1 mt-1 mb-3 rounded">
-            <option value="aanestaja">Äänestäjä</option>
             <option value="mies">Mies</option>
             <option value="nainen">Nainen</option>
         </select>
@@ -48,26 +47,26 @@
         <button onclick="peruutaAlkuun()" class="mx-1 p-2 bg-success rounded">Peruuta</button>
     </section>
 
-    <section id="aanestajanEtusivu" style="display: none;" class="container p-3">
-        <p>
-            moi
-        </p>
-        <div id="avatutAanestykset" class="p-3"></div>
+    <section id="miessivut" style="display: none;" class="container p-3">
+        <p>etusivu miehille</p>
+
+        <button onclick="editoi()" class="mx-1 p-2 bg-warning rounded">Muokkaa käyttäjä</button>
         <button onclick="kirjauduUlos()" class="p-2 bg-success rounded">Kirjaudu ulos</button>
     </section>
 
-    <section id="miessivut" style="display: none;" class="container p-3">
-        <p>
-            mies
-
-        </p>
+    <section id="editor" style="display: none;" class="container p-3">
+        <p>mies</p>
+        <div>
+            <img id="preview" src="" alt="thumbnail">
+        </div>
     
         <input type="file" id="thumbnail">
-        
+    
         <p>Sähköposti: <input type="text" size="10" maxlength="100" id="sposti1" class="m-1 rounded"></p>
         <p>Kerro itsestäsi: <input type="text" size="20" maxlength="20" id="kerro" class="m-1 rounded"></p>
-        <div id="avatutAanestykset" class="p-3"></div>
+    
         <button onclick="tallenna()" class="mx-1 p-2 bg-warning rounded">Muokkaa käyttäjä</button>
+        <button onclick="palaa()" class="mx-1 p-2 bg-warning rounded">palaa</button>
         <button onclick="kirjauduUlos()" class="p-2 bg-success rounded">Kirjaudu ulos</button>
     </section>
 
