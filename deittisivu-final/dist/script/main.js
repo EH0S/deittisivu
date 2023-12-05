@@ -187,15 +187,15 @@ function isMatch() {
   } else if (random < 0.7) {
     //match
 
-    var matchData = JSON.parse(localStorage.getItem("matches") || '[]');
+    var matchData = JSON.parse(localStorage.getItem("Profiles") || '[]');
     console.log(matchData[0]);
 
     const alreadyMatch = matchData.some(profile => profile.firstname === currentSwipeProfile.firstname);
     console.log("no nko", alreadyMatch);
 
     if (!alreadyMatch) {
-      matchData.push(currentSwipeProfile);
-      localStorage.setItem("matches", JSON.stringify(matchData));
+      matchData.push(currentSwipeProfile)
+      localStorage.setItem("Profiles", JSON.stringify(matchData));
     }
     
     loadRandomProfile();

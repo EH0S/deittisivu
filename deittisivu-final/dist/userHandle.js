@@ -17,18 +17,18 @@ import {loadChats} from './logic.js';
 
 // reversing array
 for (var i = storedProfiles.length - 1; i >= 0; i--) {
-    loadChats(storedProfiles[i].username);
-    createContact(storedProfiles[i].username, storedProfiles[i].pfp);
+    loadChats(storedProfiles[i].firstname);
+    createContact(storedProfiles[i].firstname, storedProfiles[i].pics);
 
 }
 
-function createContact(username, pfp) {
+function createContact(firstname, pics) {
     
     let contact = document.createElement('div');
     contact.classList.add('contact');
 
     let img = document.createElement('img');
-    img.src = pfp;
+    img.src = pics;
     img.style.width = '40px';
     img.style.height = '45px';
     img.style.borderRadius = '15px';
@@ -37,12 +37,12 @@ function createContact(username, pfp) {
     
 
     let usernameSpan = document.createElement('span');
-    usernameSpan.textContent = username;
+    usernameSpan.textContent = firstname;
     usernameSpan.style.paddingLeft = '15px';
 
     
     contact.onclick = function() {
-        openChat(username);
+        openChat(firstname);
         //loadChats(username)
     };
     //openChat(username);
@@ -61,7 +61,7 @@ let startButton = document.getElementById('start');
 
 
 testButton.onclick = function() {
-    
+    console.log(storedProfiles)
     
 }
 startButton.onclick = function(){
@@ -70,11 +70,11 @@ startButton.onclick = function(){
 }
 
 
-function pushNotify(username,message) {
+function pushNotify(firstname,message) {
     new Notify({
       status: 'info',
       title: 'Uusi viesti!',
-      text: `${username}: ${message}`,
+      text: `${firstname}: ${message}`,
       effect: 'fade',
       speed: 3,
       customClass: null,

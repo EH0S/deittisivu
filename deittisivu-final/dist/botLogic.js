@@ -1,4 +1,4 @@
-import testingProfiles, { getMessageCount } from './shared.js';
+import testingProfiles, { getMessageCount, storedProfiles } from './shared.js';
 import {findProfileByIndex} from './shared.js';
 import {pushNotify} from './userHandle.js';
 import {updateChatMessagesDisplay} from './logic.js';
@@ -72,7 +72,7 @@ let triggers = [
         new RegExp("kiitos|^kii|thx", 'gi'),
         [
             "no annatkos sun puhelinnumeron", 
-            `et varmaan ole sinkku kun noin komia olet, ${storedYourProfile[0].username} :)`
+            `et varmaan ole sinkku kun noin komia olet, ${storedYourProfile[0].firstname} :)`
         ]
     ],
     [
@@ -103,7 +103,7 @@ function startConversation(contact){
     updateChatMessagesDisplay(contact);
 
     pushNotify(contact, message);
-    console.log("hihihh", testingProfiles.findIndex(contact));
+    console.log("hihihh", storedProfiles.findIndex(contact));
     if (enableAttention){
         attentionCheck(contact);
     }
@@ -114,12 +114,12 @@ export {startConversation}
 
 function attentionCheck(contact){
     const attentionTime = 5;
-    let yourMsgCount = getMessageCount(contact,storedYourProfile[0].username);
+    let yourMsgCount = getMessageCount(contact,storedYourProfile[0].firstname);
     let contactMsgCount = getMessageCount(contact);
     setTimeout(() => {
             if (yourMsgCount !== contactMsgCount){
                 if (enableLogs){
-                    console.log("yourmsgCount:",getMessageCount(contact,storedYourProfile[0].username));
+                    console.log("yourmsgCount:",getMessageCount(contact,storedYourProfile[0].firstname));
                     console.log("contactmsgCount:",getMessageCount(contact));
                 }
                 
@@ -174,9 +174,9 @@ export {sendBotMsg};
 function determineContact() {
     //testingProfiles[Math.floor(Math.random() * testingProfiles.length)].username;
     if (enableAttention){
-        return testingProfiles[0].username;
+        return storedProfiles[0].firstname;
     }
-    return testingProfiles[Math.floor(Math.random() * testingProfiles.length)].username;
+    return storedProfiles[Math.floor(Math.random() * storedProfiles.length)].firstname;
     
     
 }
@@ -184,7 +184,7 @@ export {determineContact};
 
 function botMessages(contact) {
    // let contact = //determineContact();
-    var message = determineMessage(getLatestMessage(contact,storedYourProfile[0].username),);
+    var message = determineMessage(getLatestMessage(contact,storedYourProfile[0].firstname),);
     if (enableAttention){
         if (enableLogs){
         console.log("triggered attentionCheck");
