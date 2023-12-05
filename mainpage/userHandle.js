@@ -32,6 +32,8 @@ function createContact(username, pfp) {
     img.style.width = '40px';
     img.style.height = '45px';
     img.style.borderRadius = '15px';
+
+    
     
 
     let usernameSpan = document.createElement('span');

@@ -139,16 +139,17 @@ function updateChatMessagesDisplay(contact) {
             pfpUrl = testingProfiles[findProfileByIndex(contact)].pfp;
             messageClass = 'contact-message';
         }
+
         return `<div class="${messageClass}">
             <p>
                 <small class="date">${displayTime}</small><br>
                 ${msg.sender !== `${yourProfile[0].username}` ? `<img src="${pfpUrl}" class="chatPfp">` : ''}
-                
+
                 ${msg.sender === `${yourProfile[0].username}` ? ` ${msg.message} ` : `${contact}: ${msg.message}`}
                 ${msg.sender === `${yourProfile[0].username}` ? `<img  src="${pfpUrl}" class="chatPfp">` : ''}
             </p>
         </div>`;
-
+        
             
     }).join('');
 }

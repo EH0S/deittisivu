@@ -20,19 +20,40 @@ const insultsTable = [
     "ei sitte ku ignoraat. En ois sunkaa halunnukkaa jutella!",
 ];
 
+const randomAnswer = [
+    "kiva",
+    "selvä juttu",
+    "lol okei",
+    "joo",
+    "juup",
+    "asia selvä",
+    "ju",
+];
+
 
 let triggers = [
     [
-        new RegExp(".*miten (päiväsi? on mennyt|päiväs meni).*|.*oliko (hyvä|kiva) päivä.*|.*kuis sun päivä.*", 'gi'),
-        [
-            "Päiväni on mennyt hyvin, kiitos kysymästä!", 
-            "Melko kiireinen, mutta kaikki hyvin!"
-        ]
+        new RegExp("^moi|^hei|^moro", 'gi'),
+[
+            "miten siul menee?", 
+            "miten sul menee?",
+            "mitä kuuluu?",
+            "kaikki hyvin?",
+            "miten päiväsi on mennyt?",
+            "kuinka voit?",
+            "mikä meno?",
+            "mikä fiilis?",
+            "hauska tavata sinut!",
+            "mikä sinut tuo tänne?",
+            "kuinka viikonloppusi meni?",
+            "mitä suunnitelmia tälle päivälle?",
+            "mikä on päivän agenda?",
+]
     ],
     [
-        new RegExp(".*miten voit.*|.*kaikki hyvin.*|.*voitko hyvin.*|.*kuis menee.*", 'gi'),
-        [   "Voin hyvin, kiitos! Entä sinä?", 
-            "Kaikki hyvin, kiitos kysymästä!"
+        new RegExp("^kyllä|^joo|^hei|^moi|^hyvin|^huonosti|^ihan|^tässä|^ei|^voi|^mikä|^just|^menossa", 'gi'),
+        [   
+            
         ]
     ],
     [
@@ -119,7 +140,7 @@ function determineMessage(message) {
         }
     }
     
-    return "En ole varma, miten vastata tähän.";
+    return  randomAnswer[Math.floor(Math.random() * randomAnswer.length)]     //"En ole varma, miten vastata tähän.";
 }
 export {determineMessage};
 
