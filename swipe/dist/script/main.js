@@ -32,19 +32,24 @@ const acceptBtn = document
   .addEventListener("click", onAccept, false);
 
 function loadRandomProfile() {
+  
   let randomIndex = undefined;
   let attempts = 0;
-  const maxAttempts = 50;
+  const maxAttempts = 100;
   const filterGender = localStorage.getItem("genderFilter");
-
+  console.log(filterGender);
   let isValidIndex = false;
   do {
     if (filterGender === "male") {
       randomIndex = Math.floor(Math.random() * templateGuys.accounts.length);
+   //  console.log(templateGuys.accounts[randomIndex].gender);
       isValidIndex = isValidFilter(templateGuys.accounts[randomIndex]);
     } else {
       randomIndex = Math.floor(Math.random() * templateWomen.accounts.length);
+    //  console.log(templateWomen.accounts[randomIndex].gender);
+
       isValidIndex = isValidFilter(templateWomen.accounts[randomIndex]);
+     // console.log(isValidIndex);
     }
 
     attempts++;
@@ -87,6 +92,8 @@ function isValidFilter(account) {
   const isValidGender = filterGender === account.gender ? true : false;
   const isValidCountry = filterCountry === account.country ? true : false;
   const isValidDistance = filterDistance >= account.distance ? true : false;
+
+  console.log(isValidGender, isValidCountry, isValidDistance);
   return isValidGender && isValidCountry && isValidDistance;
 }
 
@@ -158,7 +165,8 @@ function complete() {
 
     swipePicture.addEventListener("pointerdown", onPointerDown);
     (startX = 0), (startY = 0), (moveX = 0), (moveY = 0);
-    loadRandomProfile();
+    //loadRandomProfile();
+    isMatch();
   }, 1000);
 }
 
@@ -168,7 +176,27 @@ function cancel() {
 }
 
 function onAccept() {
-  //TODO: save to localstorage as swiped profile
+  isMatch();
+}
+
+function isMatch() {
+  //localStorage.clear();
+  const random = Math.random();
+  if (random < 0.5) {
+    console.log("No match");
+    loadRandomProfile();
+
+  } else if (random < 0.7) {
+    console.log("match!");
+
+    var matchData = JSON.parse(localStorage.getItem("matches") || '[]');
+    matchData.push(currentSwipeProfile);
+
+    localStorage.setItem("matches", JSON.stringify(matchData));
+    loadRandomProfile();
+
+
+  }
 }
 
 function onReject() {
