@@ -1,4 +1,4 @@
-const testingProfiles = [
+let testingProfiles = [
     { username: 'Pekka', pfp: 'https://media.discordapp.net/attachments/433293359054979073/1176216959306711090/9b9f5fad41266773.png?ex=656e1068&is=655b9b68&hm=0fde4c573f381801c9cdf217ea9db0e0215ed4a8b52a7e366215872a701874e6&=&format=webp' },
     { username: 'Alrefo', pfp: 'https://cdn.discordapp.com/attachments/433293359054979073/1177707711748649063/9k.png?' },
     { username: 'Jussi', pfp: 'https://media.discordapp.net/attachments/433293359054979073/1176216917430779975/635273e5eaa0bb13.png?ex=656e105e&is=655b9b5e&hm=31e444cd791a4de62d45009d82772d47426d942ee9c67784c772a634488ae4dc&=&format=webp&width=662&height=701' },
@@ -7,20 +7,40 @@ const testingProfiles = [
 ];
 export default testingProfiles;
 
+localStorage.setItem('testingProfiles', JSON.stringify(testingProfiles));
+const storedProfiles = JSON.parse(localStorage.getItem('testingProfiles'));
+
+// exampel how to add new profiles
+//const newProfile = { username: 'Irmeli', pfp: 'https://media.discordapp.net/attachments/433293359054979073/1180536561662693437/384756761_768600311735690_7590684852044663136_n.png?ex=657dc759&is=656b5259&hm=15fd963ce60703ef2a016c87ea589021caf4666c03a9783feb8cfed0eec63084&=&format=webp&quality=lossless&width=1052&height=701' };
+//storedProfiles.push(newProfile);
+
+
+export {storedProfiles};
+
+
 // enable attentionCheck for contact
 const enableAttention = false; 
 export {enableAttention}
 const enableLogs = false;
 export {enableLogs}
 
-const yourProfile = [
+let yourProfile = [
     {username: 'juha', bio: 'rauhallisesti elämässä eteenpäi!', pfp: 'https://cdn.discordapp.com/attachments/952836235708235780/1095536926724997210/download.jpg?ex=656fdd45&is=655d6845&hm=e3c52f54eb263e62f90bf0d26ea7a48f4331dfc7f883b5d034d727203d350537&'}
     ];
 export  {yourProfile}
 
+yourProfile[0].username = 'pertti';
+localStorage.setItem('yourProfile', JSON.stringify(yourProfile));
+let storedYourProfile = JSON.parse(localStorage.getItem('yourProfile'));
+
+
+
+
+export {storedYourProfile}
+
 
 function findProfileByIndex(contact){
-    return testingProfiles.findIndex(item => item.username === contact);
+    return storedProfiles.findIndex(item => item.username === contact);
 }
 export {findProfileByIndex};
 

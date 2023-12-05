@@ -1,6 +1,6 @@
 
 import testingProfiles from './shared.js';
-
+import { storedProfiles } from './shared.js';
 import {openChat} from './logic.js'
 
 
@@ -9,16 +9,16 @@ import { determineContact} from './botLogic.js';
 import { updateChatMessagesDisplay } from './logic.js';
 
 import { getLatestMessage } from './shared.js';
-import { yourProfile } from './shared.js';
+import { storedYourProfile } from './shared.js';
 import { startConversation } from './botLogic.js';
 import { botMessages } from './botLogic.js';
 import {loadChats} from './logic.js';
 
 
 // reversing array
-for (var i = testingProfiles.length - 1; i >= 0; i--) {
-    loadChats(testingProfiles[i].username);
-    createContact(testingProfiles[i].username, testingProfiles[i].pfp);
+for (var i = storedProfiles.length - 1; i >= 0; i--) {
+    loadChats(storedProfiles[i].username);
+    createContact(storedProfiles[i].username, storedProfiles[i].pfp);
 
 }
 
@@ -61,7 +61,7 @@ let startButton = document.getElementById('start');
 
 
 testButton.onclick = function() {
-    //botMessages();
+    
     
 }
 startButton.onclick = function(){

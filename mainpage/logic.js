@@ -2,11 +2,12 @@
 
 let testButton = document.getElementById('test');
 import testingProfiles from './shared.js';
+import { storedProfiles } from './shared.js';
 import {findProfileByIndex} from './shared.js';
 import {filterChatByName} from './shared.js';
 import { getLatestMessage } from './shared.js';
 import {botMessages} from './botLogic.js'
-import { yourProfile } from './shared.js';
+import { storedYourProfile } from './shared.js';
 import {enableLogs} from './shared.js';
 import { getMessageCount } from './shared.js';
 
@@ -26,7 +27,7 @@ function openChat(contact) {
     updateChatMessagesDisplay(contact);
     if (enableLogs){
     
-    console.log(filterChatByName(contact,`${yourProfile[0].username}`));
+    console.log(filterChatByName(contact,`${storedYourProfile[0].username}`));
     //console.log(getLatestMessage(contact,yourProfile[0].username))
     //console.log(getMessageCount(contact));
     }
@@ -69,7 +70,7 @@ function loadChats(contact){
         console.log(contact+"'s index in array is",findProfileByIndex(contact));
 
         // display latest contact chat
-        if(findProfileByIndex(contact) == testingProfiles.length -1){
+        if(findProfileByIndex(contact) == storedProfiles.length -1){
             chatWindow.style.display = 'block';
 
             updateChatMessagesDisplay(contact);
@@ -102,7 +103,7 @@ function appendMessage(contact) {
 
     var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
     chatData.push({
-        sender: `${yourProfile[0].username}`,
+        sender: `${storedYourProfile[0].username}`,
         message: message,
         timestamp: new Date().toISOString()
     });
@@ -132,21 +133,21 @@ function updateChatMessagesDisplay(contact) {
             displayTime = msgDate.toLocaleString();
         }
                 var pfpUrl, messageClass;
-        if (msg.sender === `${yourProfile[0].username}`) {
-            pfpUrl = yourProfile[0].pfp;
+        if (msg.sender === `${storedYourProfile[0].username}`) {
+            pfpUrl = storedYourProfile[0].pfp;
             messageClass = 'my-message'; 
         } else {
-            pfpUrl = testingProfiles[findProfileByIndex(contact)].pfp;
+            pfpUrl = storedProfiles[findProfileByIndex(contact)].pfp;
             messageClass = 'contact-message';
         }
 
         return `<div class="${messageClass}">
             <p>
                 <small class="date">${displayTime}</small><br>
-                ${msg.sender !== `${yourProfile[0].username}` ? `<img src="${pfpUrl}" class="chatPfp">` : ''}
+                ${msg.sender !== `${storedYourProfile[0].username}` ? `<img src="${pfpUrl}" class="chatPfp">` : ''}
 
-                ${msg.sender === `${yourProfile[0].username}` ? ` ${msg.message} ` : `${contact}: ${msg.message}`}
-                ${msg.sender === `${yourProfile[0].username}` ? `<img  src="${pfpUrl}" class="chatPfp">` : ''}
+                ${msg.sender === `${storedYourProfile[0].username}` ? ` ${msg.message} ` : `${contact}: ${msg.message}`}
+                ${msg.sender === `${storedYourProfile[0].username}` ? `<img  src="${pfpUrl}" class="chatPfp">` : ''}
             </p>
         </div>`;
         

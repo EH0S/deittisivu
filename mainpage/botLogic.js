@@ -3,7 +3,7 @@ import {findProfileByIndex} from './shared.js';
 import {pushNotify} from './userHandle.js';
 import {updateChatMessagesDisplay} from './logic.js';
 import { getLatestMessage } from './shared.js';
-import {yourProfile} from './shared.js';
+import {storedYourProfile} from './shared.js';
 import {enableAttention} from './shared.js';
 import {enableLogs} from './shared.js';
 
@@ -33,7 +33,7 @@ const randomAnswer = [
 
 let triggers = [
     [
-        new RegExp("^moi|^hei|^moro", 'gi'),
+        new RegExp("moi|hei|moro|terve", 'gi'),
 [
             "miten siul menee?", 
             "miten sul menee?",
@@ -51,22 +51,28 @@ let triggers = [
 ]
     ],
     [
-        new RegExp("^kyllä|^joo|^hei|^moi|^hyvin|^huonosti|^ihan|^tässä|^ei|^voi|^mikä|^just|^menossa", 'gi'),
+        new RegExp("kyllä|joo|hyvin|huonosti|ihan|tässä|ei|voi|mikä|just|menossa", 'gi'),
         [   
+            "okeeiii",
+            "sama!",
+            "uu okeii",
+            "juu",
+            "jups",
+            "kiva kuulla :D",
+        ]
+    ],
+    [
+        new RegExp("mitäs|mitä sä|^mitäs", 'gi'),
+        [   "En kummosta", 
+            "Kattelen et kui komee sä oot :)",
             
         ]
     ],
     [
-        new RegExp(".*mitä suunnitelmia (sinulla on|sulla on).*|.*onko (sinulla|sulla) suunnitelmia (tänään|tänä päivänä).*|.*mitäs tänään.*", 'gi'),
-        [   "Vain tavallista työtä. Entä sinä?", 
-            "Ei paljon, vain rentoutumista. Entä sinulla?"
-        ]
-    ],
-    [
-        new RegExp(".*miltä sää (näyttää|vaikuttaa).*|.*onko ulkona (kylmä|kuuma).*|.*sataako (ulkona|siellä).*|.*millanen sää on.*", 'gi'),
+        new RegExp("kiitos|^kii|thx", 'gi'),
         [
-            "Sää näyttää melko mukavalta. Aurinkoista ja lämmintä!", 
-            "Näyttäisi siltä, että saattaa sataa myöhemmin."
+            "no annatkos sun puhelinnumeron", 
+            `et varmaan ole sinkku kun noin komia olet, ${storedYourProfile[0].username} :)`
         ]
     ],
     [
@@ -108,12 +114,12 @@ export {startConversation}
 
 function attentionCheck(contact){
     const attentionTime = 5;
-    let yourMsgCount = getMessageCount(contact,yourProfile[0].username);
+    let yourMsgCount = getMessageCount(contact,storedYourProfile[0].username);
     let contactMsgCount = getMessageCount(contact);
     setTimeout(() => {
             if (yourMsgCount !== contactMsgCount){
                 if (enableLogs){
-                    console.log("yourmsgCount:",getMessageCount(contact,yourProfile[0].username));
+                    console.log("yourmsgCount:",getMessageCount(contact,storedYourProfile[0].username));
                     console.log("contactmsgCount:",getMessageCount(contact));
                 }
                 
@@ -178,7 +184,7 @@ export {determineContact};
 
 function botMessages(contact) {
    // let contact = //determineContact();
-    var message = determineMessage(getLatestMessage(contact,yourProfile[0].username),);
+    var message = determineMessage(getLatestMessage(contact,storedYourProfile[0].username),);
     if (enableAttention){
         if (enableLogs){
         console.log("triggered attentionCheck");
