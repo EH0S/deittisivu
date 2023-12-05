@@ -3,7 +3,7 @@ var avaaja = null;
 var inforuutu = document.getElementById("info");
 
 function kirjauduSisaan(){
-    inforuutu.innerHTML = "<i>Keskustelun polarisoija numero yxi</i>";
+    inforuutu.innerHTML = "<i>Tervetuloa deittisovellukseen</i>";
     let nimi = document.getElementById("kayttajaNimi").value;
     let sana = document.getElementById("salasana").value;
     let tallennettuNimi = localStorage.getItem(nimi);
@@ -182,10 +182,8 @@ function kirjauduUlos(){
     inforuutu.innerHTML = `<b>${kirjautunut}</b> kirjattu ulos, näkemiin!`;
     kirjautunut = null;
     document.getElementById("etusivu").style.display = "block";
-    //document.getElementById("aanestajanEtusivu").style.display = "none";
-    document.getElementById("yllapitajanEtusivu").style.display = "none";
     document.getElementById("miessivut").style.display = "none";
-    document.getElementById("Muokkaus").style.display = "none";
+    document.getElementById("naisivut").style.display = "none";
     document.getElementById("editor").style.display = "none";
 }
 
