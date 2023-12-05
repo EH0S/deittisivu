@@ -1,3 +1,4 @@
+<<<<<<< HEAD:mainpage/shared.js
 let testingProfiles = [
     { username: 'Pekka', pfp: 'https://media.discordapp.net/attachments/433293359054979073/1176216959306711090/9b9f5fad41266773.png?ex=656e1068&is=655b9b68&hm=0fde4c573f381801c9cdf217ea9db0e0215ed4a8b52a7e366215872a701874e6&=&format=webp' },
     { username: 'Alrefo', pfp: 'https://cdn.discordapp.com/attachments/433293359054979073/1177707711748649063/9k.png?' },
@@ -6,6 +7,11 @@ let testingProfiles = [
     { username: 'Matias', pfp: 'https://media.discordapp.net/attachments/433293359054979073/1176216917430779975/635273e5eaa0bb13.png?ex=656e105e&is=655b9b5e&hm=31e444cd791a4de62d45009d82772d47426d942ee9c67784c772a634488ae4dc&=&format=webp&width=662&height=701' },
 ];
 export default testingProfiles;
+=======
+
+let testingProfiles = JSON.parse(localStorage.getItem("matches"));
+//export default testingProfiles;
+>>>>>>> 0331906b8115af4336c22b5e34576c2eae67093c:deittisivu-final/dist/shared.js
 
 localStorage.setItem('testingProfiles', JSON.stringify(testingProfiles));
 const storedProfiles = JSON.parse(localStorage.getItem('testingProfiles'));
