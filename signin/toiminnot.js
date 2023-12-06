@@ -128,7 +128,7 @@ function Paivita() {
 }
 
 // Call this function when the button is clicked
-document.getElementById('updateButton').addEventListener('click', updatePreviewImages);
+
 
 function peruutaAlkuun(){
     inforuutu.innerHTML = "<i></i>";
