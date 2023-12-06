@@ -190,45 +190,45 @@ function peruutaEtusivulle(){
 }
 
 function tallenna() {
-    let nimi = kirjautunut; // Assuming kirjautunut holds the user's identifier
+    let nimi = kirjautunut;
     let uuskerro = document.getElementById("uuskerro").value;
     let uussposti = document.getElementById("sposti1").value;
 
     // Get all input elements of type file
-    const inputElements = document.querySelectorAll('input[type="file"]');
+    const inputElements = document.querySelectorAll('input[type="file"][id^="uuskuva"]');
 
     // Initialize an array to store image data
-    const imagesData = [];
+    let imagesData = JSON.parse(localStorage.getItem(nimi)).images || [];
 
     // Loop through each input file element
     inputElements.forEach((input, index) => {
-        if (input.files && input.files[0] && index < 3) { // Only consider the first three inputs
+        if (input.files && input.files[0] && index < 3) { // Consider only the first three inputs
             const image = input.files[0];
             const reader = new FileReader();
-    
+
             reader.onload = function(event) {
                 let tallennettuData = JSON.parse(localStorage.getItem(nimi));
-    
-                // Update the first three images in the imagesData array
-                imagesData[index] = { [index]: event.target.result };
-    
+
+                // Save the image URLs directly at the respective indexes
+                imagesData[index] = event.target.result;
+
                 // Update the corresponding preview image
-                const previewImage = document.getElementById(`preview${index + 1}`);
+                const previewImage = document.getElementById(`kuva${index + 1}`);
                 if (previewImage) {
-                    previewImage.setAttribute('src', event.target.result);
+                    previewImage.setAttribute('src', imagesData[index]);
                 }
-    
+
                 // Update other user data as needed
                 tallennettuData.kerro = uuskerro;
                 tallennettuData.sahkoposti = uussposti;
-    
+
                 // Store updated user data back in local storage
                 tallennettuData.images = imagesData;
                 localStorage.setItem(nimi, JSON.stringify(tallennettuData));
-    
+
                 console.log(`Profile picture ${index + 1} updated for ${nimi}`);
             };
-    
+
             reader.readAsDataURL(image);
         }
     });
