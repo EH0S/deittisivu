@@ -27,7 +27,7 @@ function openChat(contact) {
     updateChatMessagesDisplay(contact);
     if (enableLogs){
     
-    console.log(filterChatByName(contact,`${storedYourProfile[0].username}`));
+    console.log(filterChatByName(contact,`${storedYourProfile[0].firstname}`));
     //console.log(getLatestMessage(contact,yourProfile[0].username))
     //console.log(getMessageCount(contact));
     }
@@ -103,7 +103,7 @@ function appendMessage(contact) {
 
     var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
     chatData.push({
-        sender: `${storedYourProfile[0].username}`,
+        sender: `${storedYourProfile[0].firstname}`,
         message: message,
         timestamp: new Date().toISOString()
     });
@@ -133,21 +133,21 @@ function updateChatMessagesDisplay(contact) {
             displayTime = msgDate.toLocaleString();
         }
                 var pfpUrl, messageClass;
-        if (msg.sender === `${storedYourProfile[0].username}`) {
-            pfpUrl = storedYourProfile[0].pfp;
+        if (msg.sender === `${storedYourProfile[0].firstname}`) {
+            pfpUrl = storedYourProfile[0].pics;
             messageClass = 'my-message'; 
         } else {
-            pfpUrl = storedProfiles[findProfileByIndex(contact)].pfp;
+            pfpUrl = storedProfiles[findProfileByIndex(contact)].pics;
             messageClass = 'contact-message';
         }
 
         return `<div class="${messageClass}">
             <p>
                 <small class="date">${displayTime}</small><br>
-                ${msg.sender !== `${storedYourProfile[0].username}` ? `<img src="${pfpUrl}" class="chatPfp">` : ''}
+                ${msg.sender !== `${storedYourProfile[0].firstname}` ? `<img src="${pfpUrl}" class="chatPfp">` : ''}
 
-                ${msg.sender === `${storedYourProfile[0].username}` ? ` ${msg.message} ` : `${contact}: ${msg.message}`}
-                ${msg.sender === `${storedYourProfile[0].username}` ? `<img  src="${pfpUrl}" class="chatPfp">` : ''}
+                ${msg.sender === `${storedYourProfile[0].firstname}` ? ` ${msg.message} ` : `${contact}: ${msg.message}`}
+                ${msg.sender === `${storedYourProfile[0].firstname}` ? `<img  src="${pfpUrl}" class="chatPfp">` : ''}
             </p>
         </div>`;
         

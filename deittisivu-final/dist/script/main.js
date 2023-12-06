@@ -182,16 +182,22 @@ function onAccept() {
 function isMatch() {
   const random = Math.random();
   if (random < 0.5) {
-    console.log("No match");
+    //no match
     loadRandomProfile();
-
   } else if (random < 0.7) {
-    console.log("match!");
+    //match
 
-    var matchData = JSON.parse(localStorage.getItem("matches") || '[]');
-    matchData.push(currentSwipeProfile);
+    var matchData = JSON.parse(localStorage.getItem("Profiles") || '[]');
+    console.log(matchData[0]);
 
-    localStorage.setItem("matches", JSON.stringify(matchData));
+    const alreadyMatch = matchData.some(profile => profile.firstname === currentSwipeProfile.firstname);
+    console.log("no nko", alreadyMatch);
+
+    if (!alreadyMatch) {
+      matchData.push(currentSwipeProfile)
+      localStorage.setItem("Profiles", JSON.stringify(matchData));
+    }
+    
     loadRandomProfile();
   }
 }
