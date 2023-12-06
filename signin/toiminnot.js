@@ -22,24 +22,12 @@ function kirjauduSisaan(){
             document.getElementById("etusivu").style.display = "none";
             document.getElementById("miessivut").style.display = "block";
             inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Tervetuloa deitti appiin.`;
-        } else if (rooli === "mies" || rooli === "nainen") {
-            // Perform actions for other roles ("mies" or "nainen")
-            // Example: Redirect to respective pages or perform actions based on the role
-            // You can add conditions or actions for other roles here
-            inforuutu.innerHTML = `Moi <b>${nimi}</b>! Olet rooliltasi <b>${rooli}</b>.`;
-        } else if(localStorage.getItem(`${nimi};&`) == "nainen"){
-            kirjautunut = nimi;
-            document.getElementById("kayttajaNimi").value = "";
-            document.getElementById("salasana").value = "";
-            document.getElementById("nainensivut").style.display = "block";
-            document.getElementById("etusivu").style.display = "none";
-            inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Olet rooliltasi <b>Nainen</b>.`;
 }}}
 
 function luoKayttaja(){
     document.getElementById("kayttajanLuominen").style.display = "block";
     document.getElementById("etusivu").style.display = "none";
-    inforuutu.innerHTML = "<i>Keskustelun polarisoija numero yxi</i>";
+    inforuutu.innerHTML = "<i>hejsan</i>";
 }
 
 function vahvistaKayttaja(){
@@ -61,11 +49,7 @@ function vahvistaKayttaja(){
         inforuutu.innerHTML = "Puhelin numerossa tulee olemaan vähintään 9 numeroa";
         document.getElementById("puh").value = "";
     }   else {
-        // Handle image uploads
-        let kuva = document.getElementById("thumbnailRegister").value;
-        let kuva2 = document.getElementById("thumbnailRegister2").value;
-        let kuva3 = document.getElementById("thumbnailRegister3").value;
-
+  
         // Initialize an object to store user data
         let userData = {
             nimi,
@@ -112,9 +96,6 @@ function vahvistaKayttaja(){
 }
 
 
-
-
-
 function Paivita() {
     const previewImage1 = document.getElementById('preview0');
     const previewImage2 = document.getElementById('preview1');
@@ -150,7 +131,7 @@ function Paivita() {
 document.getElementById('updateButton').addEventListener('click', updatePreviewImages);
 
 function peruutaAlkuun(){
-    inforuutu.innerHTML = "<i>Keskustelun polarisoija numero yxi</i>";
+    inforuutu.innerHTML = "<i></i>";
     document.getElementById("etusivu").style.display = "block";
     document.getElementById("kayttajanLuominen").style.display = "none";
     document.getElementById("uusiKayttajaNimi").value = "";
@@ -162,11 +143,11 @@ function kirjauduUlos(){
     kirjautunut = null;
     document.getElementById("etusivu").style.display = "block";
     document.getElementById("miessivut").style.display = "none";
-    document.getElementById("naisivut").style.display = "none";
     document.getElementById("editor").style.display = "none";
 }
 //avaa editoi sivun
 function editoi() {
+    inforuutu.innerHTML = "<i></i>";
     document.getElementById("miessivut").style.display = "none";
     document.getElementById("editor").style.display = "block";
     let nimi = kirjautunut;
