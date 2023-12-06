@@ -115,9 +115,39 @@ function vahvistaKayttaja(){
 
 
 
-function Paivita(){
+function Paivita() {
+    const previewImage1 = document.getElementById('preview0');
+    const previewImage2 = document.getElementById('preview1');
+    const previewImage3 = document.getElementById('preview2');
 
+    // Function to handle image preview and storage
+    function handleImagePreview(inputId, previewImage) {
+        const input = document.getElementById(inputId);
+        const image = input.files[0];
+
+        if (image) {
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                let pfp = event.target.result;
+
+                // Update the preview image source
+                if (previewImage) {
+                    previewImage.setAttribute('src', pfp);
+                }
+            };
+
+            reader.readAsDataURL(image);
+        }
+    }
+
+    handleImagePreview("thumbnailRegister", previewImage1);
+    handleImagePreview("thumbnailRegister2", previewImage2);
+    handleImagePreview("thumbnailRegister3", previewImage3);
 }
+
+// Call this function when the button is clicked
+document.getElementById('updateButton').addEventListener('click', updatePreviewImages);
 
 function peruutaAlkuun(){
     inforuutu.innerHTML = "<i>Keskustelun polarisoija numero yxi</i>";
