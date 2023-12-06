@@ -27,9 +27,13 @@
         <body>
             <h1>Save Image to localStorage</h1>
             <div>
-                <img id="preview1" src="" alt="thumbnailRegister">
+                <img id="preview0" src="" alt="thumbnailRegister">
+                <img id="preview1" src="" alt="thumbnailRegister2">
+                <img id="preview2" src="" alt="thumbnailRegister3">
             </div>
             <input type="file" id="thumbnailRegister">
+            <input type="file" id="thumbnailRegister2">
+            <input type="file" id="thumbnailRegister3">
             <button onclick="Paivita()">Päivitä</button>
         
         </body>
@@ -41,6 +45,9 @@
         <p>Salasanasi: <input type="password" size="10" maxlength="50" id="uusiSalasana" class=""></p>
         <p>Sähköposti: <input type="text" size="10" maxlength="100" id="sposti" class=""></p>
         <p>Puhelinnumero: <input type="text" size="10" maxlength="10" id="puh" class=""></p>
+        <p>Kerro itsestäsi: <input type="text" size="10" maxlength="10" id="kerro" class=""></p>
+        <p>Ikä: <input type="text" size="10" maxlength="10" id="ika" class=""></p>
+
         <button onclick="vahvistaKayttaja()" class="">Vahvista</button>
         <button onclick="peruutaAlkuun()" class="">Peruuta</button>
     </section>
@@ -55,13 +62,17 @@
     <section id="editor" style="display: none;" class="">
         <p>mies</p>
         <div>
-            <img id="preview" src="" alt="thumbnail">
+            <img id="kuva1" src="" alt="thumbnail1">
+            <img id="kuva2" src="" alt="thumbnail2">
+            <img id="kuva3" src="" alt="thumbnail3">
         </div>
     
-        <input type="file" id="thumbnail">
+        <input type="file" id="thumbnail1">
+        <input type="file" id="thumbnail2">
+        <input type="file" id="thumbnail3">
     
         <p>Sähköposti: <input type="text" size="10" maxlength="100" id="sposti1" class=""></p>
-        <p>Kerro itsestäsi: <input type="text" size="20" maxlength="20" id="kerro" class=""></p>
+        <p>Kerro itsestäsi: <input type="text" size="20" maxlength="20" id="uuskerro" class=""></p>
     
         <button onclick="tallenna()" class="">Muokkaa käyttäjä</button>
         <button onclick="palaa()" class="">palaa</button>
