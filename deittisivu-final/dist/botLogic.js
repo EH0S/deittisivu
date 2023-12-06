@@ -101,9 +101,9 @@ function startConversation(contact){
     localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
 
     updateChatMessagesDisplay(contact);
-
-    pushNotify(contact, message);
-    console.log("hihihh", storedProfiles.findIndex(contact));
+    pushNotify(contact,message)
+    
+    //console.log("hihihh", storedProfiles.findIndex(contact));
     if (enableAttention){
         attentionCheck(contact);
     }
@@ -146,7 +146,7 @@ function determineMessage(message) {
         }
     }
     
-    return  randomAnswer[Math.floor(Math.random() * randomAnswer.length)]     //"En ole varma, miten vastata tähän.";
+    return  randomAnswer[Math.floor(Math.random() * randomAnswer.length)]    
 }
 export {determineMessage};
 
@@ -172,11 +172,26 @@ function sendBotMsg(contact,msg){
 export {sendBotMsg};
 
 function determineContact() {
+    let storedProfiles = JSON.parse(localStorage.getItem('Profiles'));
     //testingProfiles[Math.floor(Math.random() * testingProfiles.length)].username;
     if (enableAttention){
         return storedProfiles[0].firstname;
     }
-    return storedProfiles[Math.floor(Math.random() * storedProfiles.length)].firstname;
+    console.log(storedProfiles)
+    // selects the latest profile that you have matched with.
+
+    if (storedProfiles.length > 1){
+        return storedProfiles[storedProfiles.length -1].firstname;
+    }
+    else {
+        return storedProfiles[0].firstname; 
+    }
+
+    
+    
+
+    // selects random one
+    //storedProfiles[Math.floor(Math.random() * storedProfiles.length)].firstname;
     
     
 }

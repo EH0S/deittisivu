@@ -1,6 +1,7 @@
 import templateGuys from "../templateGuys.json" assert { type: "json" };
 import templateWomen from "../templateWomen.json" assert { type: "json" };
 
+
 let namelabel = document.querySelector("#name_label");
 let ageLabel = document.querySelector("#age_label");
 let descLabel = document.querySelector("#desc_label");
@@ -178,7 +179,8 @@ function cancel() {
 function onAccept() {
   isMatch();
 }
-
+import { startConversation } from '../botLogic.js';
+import { determineContact } from "../botLogic.js";
 function isMatch() {
   const random = Math.random();
   if (random < 0.5) {
@@ -194,8 +196,11 @@ function isMatch() {
     console.log("no nko", alreadyMatch);
 
     if (!alreadyMatch) {
+      
       matchData.push(currentSwipeProfile)
+      
       localStorage.setItem("Profiles", JSON.stringify(matchData));
+      startConversation(determineContact());
     }
     
     loadRandomProfile();
@@ -205,3 +210,4 @@ function isMatch() {
 function onReject() {
   loadRandomProfile(); //just skip
 }
+

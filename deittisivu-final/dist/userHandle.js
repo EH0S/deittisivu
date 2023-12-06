@@ -16,11 +16,43 @@ import {loadChats} from './logic.js';
 
 
 // reversing array
-for (var i = storedProfiles.length - 1; i >= 0; i--) {
-    loadChats(storedProfiles[i].firstname);
-    createContact(storedProfiles[i].firstname, storedProfiles[i].pics);
 
+
+document.addEventListener("DOMContentLoaded", function() {
+   
+    if (window.location.href.endsWith("chat.html")) {
+       
+        console.log("This is chat.html");
+        for (var i = storedProfiles.length - 1; i >= 0; i--) {
+            loadChats(storedProfiles[i].firstname);
+            createContact(storedProfiles[i].firstname, storedProfiles[i].pics);
+        
+        }
+        let testButton = document.getElementById('test');
+        let startButton = document.getElementById('start');
+
+
+
+
+
+
+testButton.onclick = function() {
+    console.log(storedProfiles)
+    
 }
+startButton.onclick = function(){
+    // this function will execute when new match is found
+    startConversation(determineContact());
+}
+    }
+
+    
+});
+
+
+    
+
+
 
 function createContact(firstname, pics) {
     
@@ -28,7 +60,7 @@ function createContact(firstname, pics) {
     contact.classList.add('contact');
 
     let img = document.createElement('img');
-    img.src = pics;
+    img.src = pics[0];
     img.style.width = '40px';
     img.style.height = '45px';
     img.style.borderRadius = '15px';
@@ -52,22 +84,7 @@ function createContact(firstname, pics) {
     document.getElementById('sidebar').appendChild(contact);
 }
 
-let testButton = document.getElementById('test');
-let startButton = document.getElementById('start');
 
-
-
-
-
-
-testButton.onclick = function() {
-    console.log(storedProfiles)
-    
-}
-startButton.onclick = function(){
-    // this function will execute when new match is found
-    startConversation(determineContact());
-}
 
 
 function pushNotify(firstname,message) {

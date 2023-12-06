@@ -33,7 +33,12 @@ let yourProfile = [
 export  {yourProfile}
 
 //yourProfile[0].username = 'pertti';
+
+//disable this when linking your actual profile
 localStorage.setItem('yourProfile', JSON.stringify(yourProfile));
+//
+
+
 let storedYourProfile = JSON.parse(localStorage.getItem('yourProfile'));
 
 

@@ -137,7 +137,7 @@ function updateChatMessagesDisplay(contact) {
             pfpUrl = storedYourProfile[0].pics;
             messageClass = 'my-message'; 
         } else {
-            pfpUrl = storedProfiles[findProfileByIndex(contact)].pics;
+            pfpUrl = storedProfiles[findProfileByIndex(contact)].pics[0];
             messageClass = 'contact-message';
         }
 
