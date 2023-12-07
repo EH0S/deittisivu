@@ -15,7 +15,7 @@ import { botMessages } from './botLogic.js';
 import {loadChats} from './logic.js';
 
 
-// reversing array
+
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (window.location.href.endsWith("chat.html")) {
        
         console.log("This is chat.html");
+        // reversing array
         for (var i = storedProfiles.length - 1; i >= 0; i--) {
             loadChats(storedProfiles[i].firstname);
             createContact(storedProfiles[i].firstname, storedProfiles[i].pics);
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 testButton.onclick = function() {
-    console.log(storedProfiles)
+    
     
 }
 startButton.onclick = function(){
@@ -49,8 +50,6 @@ startButton.onclick = function(){
     
 });
 
-
-    
 
 
 

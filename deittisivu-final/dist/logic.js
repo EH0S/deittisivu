@@ -48,20 +48,40 @@ function loadChats(contact){
             chatWindow.appendChild(chatHeader);
     
             var chatMessagesDiv = document.createElement("div");
+            chatMessagesDiv.classList.add('chat-messages');
             chatMessagesDiv.id = 'chatMessages-' + contact;
             chatWindow.appendChild(chatMessagesDiv);
     
-            var chatInput = document.createElement("input");
-            chatInput.type = "text";
-            chatInput.id = 'chatInput-' + contact;
-            chatInput.setAttribute('maxlength',60);
-            chatInput.placeholder = "Type a message...";
-            chatWindow.appendChild(chatInput);
-    
+
+            
+            var chatInput = document.createElement("div");
+            chatInput.classList.add("search-label");
+
+            var formElement = document.createElement("form"); 
+
+            var inputElement = document.createElement("input");
+            inputElement.type = "text";
+            inputElement.name = "text";
+            inputElement.classList.add("input");
+            inputElement.id = 'chatInput-' + contact;
+            inputElement.placeholder = "Type here...";
+
             var sendButton = document.createElement("button");
-            sendButton.textContent = "Send";
-            sendButton.onclick = function() { appendMessage(contact); {botMessages(contact);}};
-            chatWindow.appendChild(sendButton);
+            sendButton.textContent = "→";
+            sendButton.type = "submit"; 
+            sendButton.classList.add("sendBtn");
+            sendButton.onclick = function() {
+                event.preventDefault();
+                appendMessage(contact);
+                botMessages(contact);
+            };
+
+            formElement.appendChild(inputElement); 
+            formElement.appendChild(sendButton); 
+
+            chatInput.appendChild(formElement);
+
+            chatWindow.appendChild(chatInput);
     
             document.getElementById('chat-container').appendChild(chatWindow);
             
@@ -120,7 +140,7 @@ function updateChatMessagesDisplay(contact) {
     var todayStr = today.toDateString();
     var chatMessagesDiv = document.getElementById('chatMessages-' + contact);
     var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
-
+    
     chatMessagesDiv.innerHTML = chatData.map(msg => {
         var msgDate = new Date(msg.timestamp);
         var displayTime;
@@ -153,6 +173,7 @@ function updateChatMessagesDisplay(contact) {
         
             
     }).join('');
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
 }
 
 

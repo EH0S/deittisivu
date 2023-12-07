@@ -187,9 +187,6 @@ function determineContact() {
         return storedProfiles[0].firstname; 
     }
 
-    
-    
-
     // selects random one
     //storedProfiles[Math.floor(Math.random() * storedProfiles.length)].firstname;
     
@@ -217,9 +214,34 @@ function botMessages(contact) {
     });
 
     
-    localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
+    
+    
+    
+    setTimeout(() => {
+        const contactMessageDiv = document.createElement('div');
+        contactMessageDiv.classList.add('contact-message');
+    
+        const dotsContainer = document.createElement('section');
+        dotsContainer.classList.add('dots-container');
+        for (let i = 0; i < 5; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dotsContainer.appendChild(dot);
+        }
+    
+        var chatMessagesDiv = document.getElementById('chatMessages-' + contact);
+        chatMessagesDiv.appendChild(contactMessageDiv);
+        contactMessageDiv.appendChild(dotsContainer);
+        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+    }, 1500);
 
+    setTimeout(() => {
+    localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
     updateChatMessagesDisplay(contact);
     pushNotify(contact, message);
+    }, Math.floor(Math.random() * 7000) + 2000);
+    
+    
 }
 export {botMessages}
+
