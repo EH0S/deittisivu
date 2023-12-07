@@ -211,7 +211,26 @@ p{
   }
   
 
-  
-  
 
   
+  .notify {
+    /* defaults */
+    --notify-error: #eb5757;
+    --notify-success: #cfad6f;
+    --notify-warning: rgb(76, 209, 242) !important;
+    --notify-info: rgb(162, 162, 162) !important;
+    --notify-gray: rgb(162, 162, 162) !important;
+    --notify-gray-2: rgb(162, 162, 162) !important;
+    --notify-gray-3: #828282 !important;
+    --notify-white: rgb(162, 162, 162) !important;
+    --notify-white-2: rgb(162, 162, 162) !important;
+    --notify-padding: 0.75rem;
+    --notify-icon-size: 32px;
+    --notify-close-icon-size: 16px;
+    background-color: #171717 !important;
+    opacity: 0.95 !important;
+    cursor:pointer !important;
+  }
+  .notify.notify-autoclose.notify--info::before {
+    background-color: rgba(145, 144, 144, 0.726) !important;
+}

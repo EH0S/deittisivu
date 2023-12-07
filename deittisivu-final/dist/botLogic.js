@@ -7,6 +7,8 @@ import {storedYourProfile} from './shared.js';
 import {enableAttention} from './shared.js';
 import {enableLogs} from './shared.js';
 
+let isAttentionCheckInProgress = false;
+
 const greetingsTable = [
     "moiksuuu",
     "ootpäs sä komee :O",
@@ -104,7 +106,7 @@ function startConversation(contact){
     pushNotify(contact,message)
     
     //console.log("hihihh", storedProfiles.findIndex(contact));
-    if (enableAttention){
+    if (enableAttention && isAttentionCheckInProgress === false){
         attentionCheck(contact);
     }
     
@@ -113,21 +115,46 @@ export {startConversation}
 // TODO: LOGIC TO DETERMINE STUFF
 
 function attentionCheck(contact){
-    const attentionTime = 5;
-    let yourMsgCount = getMessageCount(contact,storedYourProfile[0].firstname);
-    let contactMsgCount = getMessageCount(contact);
+    
+    const attentionTime = 20;
+    
+    
+    isAttentionCheckInProgress = true;
     setTimeout(() => {
-            if (yourMsgCount !== contactMsgCount){
+        let contactMsgCount = getMessageCount(contact);
+        let yourMsgCount = getMessageCount(contact,storedYourProfile[0].firstname);
+            if (yourMsgCount === contactMsgCount || yourMsgCount < contactMsgCount){
                 if (enableLogs){
                     console.log("yourmsgCount:",getMessageCount(contact,storedYourProfile[0].firstname));
                     console.log("contactmsgCount:",getMessageCount(contact));
                 }
                 
                 sendBotMsg(contact,insultsTable[Math.floor(Math.random() * insultsTable.length)]);
+                contactMsgCount += 1;
+                console.log("yourmsgCount:",yourMsgCount);
+                    console.log("contactmsgCount:",contactMsgCount);
+                isAttentionCheckInProgress = false; 
+                setTimeout(() => {
+
+                    if (yourMsgCount === contactMsgCount || yourMsgCount < contactMsgCount){
+                        for (var i = 0; i < Math.floor(Math.random() * 15) + 4; i++) {
+                            setTimeout(() => {
+                                sendBotMsg(contact,insultsTable[Math.floor(Math.random() * insultsTable.length)]);
+                            }, Math.floor(Math.random() * 10000) + 3000);
+                            
+                        }
+                    }
+                }, 5000); 
                 return
-            }    
+            }   
 
+            if (yourMsgCount < contactMsgCount){
 
+            }            
+
+            isAttentionCheckInProgress = false; 
+            
+              
         //console.log("HIHII",getLatestMessage(contact,yourProfile[0].username));
     }, attentionTime * 1000);
     
@@ -197,7 +224,7 @@ export {determineContact};
 function botMessages(contact) {
    // let contact = //determineContact();
     var message = determineMessage(getLatestMessage(contact,storedYourProfile[0].firstname),);
-    if (enableAttention){
+    if (enableAttention && isAttentionCheckInProgress === false){
         if (enableLogs){
         console.log("triggered attentionCheck");
         }

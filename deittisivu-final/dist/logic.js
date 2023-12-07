@@ -44,7 +44,7 @@ function loadChats(contact){
             chatWindow.classList.add('chat-window');
     
             var chatHeader = document.createElement("h2");
-            chatHeader.textContent = "Chat with " + contact;
+            chatHeader.textContent = "Keskustelu - " + contact;
             chatWindow.appendChild(chatHeader);
     
             var chatMessagesDiv = document.createElement("div");
@@ -64,17 +64,27 @@ function loadChats(contact){
             inputElement.name = "text";
             inputElement.classList.add("input");
             inputElement.id = 'chatInput-' + contact;
-            inputElement.placeholder = "Type here...";
+            inputElement.placeholder = "Kirjoita tähän...";
+            
+            
 
             var sendButton = document.createElement("button");
             sendButton.textContent = "→";
             sendButton.type = "submit"; 
             sendButton.classList.add("sendBtn");
+           
             sendButton.onclick = function() {
                 event.preventDefault();
-                appendMessage(contact);
-                botMessages(contact);
+                if (inputElement.value.length > 0){
+                    appendMessage(contact);
+                    botMessages(contact);
+                }
+                else {
+                    console.log("empty input");
+                }
+                
             };
+            
 
             formElement.appendChild(inputElement); 
             formElement.appendChild(sendButton); 

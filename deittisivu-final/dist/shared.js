@@ -22,9 +22,9 @@ export {storedProfiles};
 
 
 // enable attentionCheck for contact
-const enableAttention = false; 
+const enableAttention = true; 
 export {enableAttention}
-const enableLogs = false;
+const enableLogs = true;
 export {enableLogs}
 
 let yourProfile = [

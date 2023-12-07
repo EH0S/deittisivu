@@ -87,13 +87,14 @@ function createContact(firstname, pics) {
 
 
 function pushNotify(firstname,message) {
-    new Notify({
+    
+    const popup = new Notify({
       status: 'info',
       title: 'Uusi viesti!',
       text: `${firstname}: ${message}`,
       effect: 'fade',
       speed: 3,
-      customClass: null,
+      customClass: 'notify',
       customIcon: null,
       showIcon: true,
       showCloseButton: true,
@@ -103,7 +104,16 @@ function pushNotify(firstname,message) {
       distance: 20,
       type: 1,
       position: 'x-center '
-    })
+    });
+    const notifyDivs = document.querySelectorAll('.notify');
+    notifyDivs.forEach(div => {
+        div.addEventListener('click', () => {
+          console.log("opening chat for",firstname)
+          openChat(firstname);
+        });
+      });
   }
 
 export {pushNotify}
+
+
