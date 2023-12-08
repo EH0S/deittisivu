@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deittisovellus</title>
+</head>
+<body class="">
+
+    <header class="">
+        <h1>Deittisovellus</h1>
+        <p id="info" class=""><i>Deittisovellus</i></p>
+    </header>
+
+    <section id="etusivu" class="">
+        <p>Käyttäjänimi: <input type="text" size="20" maxlength="20" id="kayttajaNimi" class=""></p>
+        <p>Salasana: <input type="password" size="10" maxlength="10" id="salasana" class=""></p>
+        <button onclick="kirjauduSisaan()" class="">Kirjaudu sisään</button>
+        <p class="">Ei tiliä? Tee sellainen itsellesi!</p>
+        <button onclick="luoKayttaja()" class="">Luo uusi käyttäjä</button>
+    </section>
+
+    <section id="kayttajanLuominen" style="display: none;" class="">
+        <p>
+            Luoti tili päästäksesi swipailemaan.
+        </p>
+        <body>
+            <h1>Save Image to localStorage</h1>
+            <div>
+                <img id="preview0" src="" alt="thumbnailRegister">
+                <img id="preview1" src="" alt="thumbnailRegister2">
+                <img id="preview2" src="" alt="thumbnailRegister3">
+            </div>
+            <input type="file" id="thumbnailRegister">
+            <input type="file" id="thumbnailRegister2">
+            <input type="file" id="thumbnailRegister3">
+            <button onclick="Paivita()">Päivitä</button>
+        
+        </body>
+        <select id="rooli" class="">
+            <option value="mies">Mies</option>
+            <option value="nainen">Nainen</option>
+        </select>
+        <p>Koko Nimi: <input type="text" size="20" maxlength="20" id="uusiKayttajaNimi" class=""></p>
+        <p>Salasanasi: <input type="password" size="10" maxlength="50" id="uusiSalasana" class=""></p>
+        <p>Sähköposti: <input type="text" size="10" maxlength="100" id="sposti" class=""></p>
+        <p>Puhelinnumero: <input type="text" size="10" maxlength="10" id="puh" class=""></p>
+        <p>Kerro itsestäsi: <input type="text" size="10" maxlength="10" id="kerro" class=""></p>
+        <p>Ikä: <input type="text" size="10" maxlength="10" id="ika" class=""></p>
+
+        <button onclick="vahvistaKayttaja()" class="">Vahvista</button>
+        <button onclick="peruutaAlkuun()" class="">Peruuta</button>
+    </section>
+
+    <section id="miessivut" style="display: none;" class="">
+        <p>etusivu miehille</p>
+
+        <button onclick="editoi()" class="">Muokkaa käyttäjä</button>
+        <button onclick="kirjauduUlos()" class="">Kirjaudu ulos</button>
+    </section>
+
+    <section id="editor" style="display: none;" class="">
+        <p>Täällä voi muokata profiilin kuvia, sähköpostia ja tietoa itsestäsi</p>
+        <div>
+            <img id="kuva1" src="" alt="uuskuva1">
+            <img id="kuva2" src="" alt="uuskuva2">
+            <img id="kuva3" src="" alt="uuskuva3">
+        </div>
+    
+        <input type="file" id="uuskuva1">
+        <input type="file" id="uuskuva2">
+        <input type="file" id="uuskuva3">
+    
+        <p>Sähköposti: <input type="text" size="10" maxlength="100" id="sposti1" class=""></p>
+        <p>Kerro itsestäsi: <input type="text" size="20" maxlength="20" id="uuskerro" class=""></p>
+    
+        <button onclick="tallenna()" class="">Muokkaa käyttäjä</button>
+        <button onclick="palaa()" class="">palaa</button>
+        <button onclick="kirjauduUlos()" class="">Kirjaudu ulos</button>
+    </section>
+
+    <script src="toiminnot.js"></script>
+</body>
+</html>
