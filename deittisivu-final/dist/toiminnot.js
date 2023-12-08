@@ -2,28 +2,38 @@ var kirjautunut = null;
 var avaaja = null;
 var inforuutu = document.getElementById("info");
 
-function kirjauduSisaan(){
+function kirjauduSisaan() {
     inforuutu.innerHTML = "<i>Tervetuloa deittisovellukseen</i>";
+
     let nimi = document.getElementById("kayttajaNimi").value;
     let sana = document.getElementById("salasana").value;
-    let tallennettuData = JSON.parse(localStorage.getItem(nimi));
+    
+    let tallennettuData = JSON.parse(localStorage.getItem('käyttäjät'));
+    
     if (!tallennettuData) {
         inforuutu.innerHTML = "Käyttäjää ei löydy!";
         document.getElementById("kayttajaNimi").value = "";
-    } else if (tallennettuData.sana !== sana) {
-        inforuutu.innerHTML = "Väärä salasana!";
         document.getElementById("salasana").value = "";
     } else {
-        let rooli = tallennettuData.rooli;
-        if (rooli === "mies") {
-            kirjautunut = nimi;
+        let foundUser = tallennettuData.find(user => user.nimi === nimi && user.sana === sana);
+
+        if (foundUser) {
+            let rooli = foundUser.rooli;
+            if (rooli === "mies") {
+                kirjautunut = nimi;
+                window.location.href = 'swipe.html';
+                inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Tervetuloa deitti appiin.`;
+                localStorage.setItem("kirjautunut", nimi);
+            } else {
+                // Handle other roles or redirect as needed
+            }
+        } else {
+            inforuutu.innerHTML = "Väärä käyttäjänimi tai salasana!";
             document.getElementById("kayttajaNimi").value = "";
             document.getElementById("salasana").value = "";
-            //document.getElementById("etusivu").style.display = "none";
-            window.location.href = 'swipe.html';
-            //document.getElementById("miessivut").style.display = "block";
-            inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Tervetuloa deitti appiin.`;
-}}}
+        }
+    }
+}
 
 function luoKayttaja(){
     document.getElementById("kayttajanLuominen").style.display = "block";
@@ -77,7 +87,9 @@ function vahvistaKayttaja(){
     
                     // Store the user data in localStorage after all images are loaded
                     if (userData.images.length === 3) {
-                        localStorage.setItem(nimi, JSON.stringify(userData));
+                        var userDatas = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
+                        userDatas.push(userData)
+                        localStorage.setItem("käyttäjät", JSON.stringify(userDatas));
                         document.getElementById("etusivu").style.display = "block";
                         document.getElementById("kayttajanLuominen").style.display = "none";
                         inforuutu.innerHTML = `Käyttäjä <b>${nimi}</b> luotu!`;
@@ -149,28 +161,35 @@ function kirjauduUlos(){
 }
 //avaa editoi sivun
 function editoi() {
-    inforuutu.innerHTML = "<i></i>";
+    inforuutu.innerHTML = "";
     document.getElementById("miessivut").style.display = "none";
     document.getElementById("editor").style.display = "block";
-    let nimi = kirjautunut;
-    let tallennettuData = JSON.parse(localStorage.getItem(nimi));
+    let nimi = kirjautunut; // Get the logged-in username
+    let tallennettuData = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
 
-    let images = tallennettuData.images;
+    // Find the user by their name
+    let foundUser = tallennettuData.find(user => user.nimi === nimi);
 
-    // Set image URLs to preview elements
-    const previewImage1 = document.getElementById('kuva1');
-    const previewImage2 = document.getElementById('kuva2');
-    const previewImage3 = document.getElementById('kuva3');
+    if (foundUser) {
+        let images = foundUser.images;
 
-    if (images && images.length >= 3) {
-        previewImage1.setAttribute('src', images[0]); // Set image URL directly
-        previewImage2.setAttribute('src', images[1]); // Set image URL directly
-        previewImage3.setAttribute('src', images[2]); // Set image URL directly
-        console.log('Image 1 URL:', images[0]);
-        console.log('Image 2 URL:', images[1]);
-        console.log('Image 3 URL:', images[2]);
+        // Set image URLs to preview elements
+        const previewImage1 = document.getElementById('kuva1');
+        const previewImage2 = document.getElementById('kuva2');
+        const previewImage3 = document.getElementById('kuva3');
+
+        if (images && images.length >= 3) {
+            previewImage1.setAttribute('src', images[0]); // Set image URL directly
+            previewImage2.setAttribute('src', images[1]); // Set image URL directly
+            previewImage3.setAttribute('src', images[2]); // Set image URL directly
+            console.log('Image 1 URL:', images[0]);
+            console.log('Image 2 URL:', images[1]);
+            console.log('Image 3 URL:', images[2]);
+        } else {
+            console.log('Images not available or insufficient images.');
+        }
     } else {
-        console.log('Images not available or insufficient images.');
+        console.log('User data not found.');
     }
 }
 
@@ -203,15 +222,27 @@ function peruutaEtusivulle(){
 }
 
 function tallenna() {
-    let nimi = kirjautunut;
-    let uuskerro = document.getElementById("uuskerro").value;
-    let uussposti = document.getElementById("sposti1").value;
+    let loggedUserName = localStorage.getItem('kirjautunut');
+    let käyttäjät = JSON.parse(localStorage.getItem('käyttäjät')) || [];
+    let loggedUser = käyttäjät.find(user => user.nimi === loggedUserName);
+
+    if (!loggedUser) {
+        console.log('User not logged in.');
+        return;
+    }
+
+    // Get the updated email value from the input field
+    let newEmail = document.getElementById('sposti1').value;
+
+    // Get the updated 'kerro itsestäsi' value from the input field
+    let newAbout = document.getElementById('uuskerro').value;
+
+    // Update the 'sahkoposti' and 'kerro' fields for the logged-in user with the new values
+    loggedUser.sahkoposti = newEmail;
+    loggedUser.kerro = newAbout;
 
     // Get all input elements of type file
     const inputElements = document.querySelectorAll('input[type="file"][id^="uuskuva"]');
-
-    // Initialize an array to store image data
-    let imagesData = JSON.parse(localStorage.getItem(nimi)).images || [];
 
     // Loop through each input file element
     inputElements.forEach((input, index) => {
@@ -220,29 +251,22 @@ function tallenna() {
             const reader = new FileReader();
 
             reader.onload = function(event) {
-                let tallennettuData = JSON.parse(localStorage.getItem(nimi));
-
                 // Save the image URLs directly at the respective indexes
-                imagesData[index] = event.target.result;
+                loggedUser.images[index] = event.target.result;
 
-                // Update the corresponding preview image
+                // Update the corresponding preview image if needed
                 const previewImage = document.getElementById(`kuva${index + 1}`);
                 if (previewImage) {
-                    previewImage.setAttribute('src', imagesData[index]);
+                    previewImage.setAttribute('src', loggedUser.images[index]);
                 }
 
-                // Update other user data as needed
-                tallennettuData.kerro = uuskerro;
-                tallennettuData.sahkoposti = uussposti;
-
-                // Store updated user data back in local storage
-                tallennettuData.images = imagesData;
-                localStorage.setItem(nimi, JSON.stringify(tallennettuData));
-
-                console.log(`Profile picture ${index + 1} updated for ${nimi}`);
+                console.log(`Profile picture ${index + 1} updated for ${loggedUserName}`);
             };
 
             reader.readAsDataURL(image);
         }
     });
+
+    // Store updated 'käyttäjät' array back in local storage
+    localStorage.setItem('käyttäjät', JSON.stringify(käyttäjät));
 }
