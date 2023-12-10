@@ -21,9 +21,16 @@ function kirjauduSisaan() {
             let rooli = foundUser.rooli;
             if (rooli === "mies") {
                 kirjautunut = nimi;
+                
+
+                
+
                 window.location.href = 'swipe.html';
                 inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Tervetuloa deitti appiin.`;
                 localStorage.setItem("kirjautunut", nimi);
+                let findUser = tallennettuData.filter(user => user.nimi === nimi);
+                // laittaa kirjautuneen käyttäjän tiedot chatti osioon, pfp jne...
+                localStorage.setItem('yourProfile', JSON.stringify(findUser));
             } else {
                 // Handle other roles or redirect as needed
             }
@@ -88,6 +95,10 @@ function vahvistaKayttaja(){
                     // Store the user data in localStorage after all images are loaded
                     if (userData.images.length === 3) {
                         var userDatas = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
+                        
+
+
+
                         userDatas.push(userData)
                         localStorage.setItem("käyttäjät", JSON.stringify(userDatas));
                         document.getElementById("etusivu").style.display = "block";

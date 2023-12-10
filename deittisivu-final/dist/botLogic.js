@@ -122,10 +122,10 @@ function attentionCheck(contact){
     isAttentionCheckInProgress = true;
     setTimeout(() => {
         let contactMsgCount = getMessageCount(contact);
-        let yourMsgCount = getMessageCount(contact,storedYourProfile[0].firstname);
+        let yourMsgCount = getMessageCount(contact,storedYourProfile[0].nimi);
             if (yourMsgCount === contactMsgCount || yourMsgCount < contactMsgCount){
                 if (enableLogs){
-                    console.log("yourmsgCount:",getMessageCount(contact,storedYourProfile[0].firstname));
+                    console.log("yourmsgCount:",getMessageCount(contact,storedYourProfile[0].nimi));
                     console.log("contactmsgCount:",getMessageCount(contact));
                 }
                 
@@ -223,7 +223,7 @@ export {determineContact};
 
 function botMessages(contact) {
    // let contact = //determineContact();
-    var message = determineMessage(getLatestMessage(contact,storedYourProfile[0].firstname),);
+    var message = determineMessage(getLatestMessage(contact,storedYourProfile[0].nimi),);
     if (enableAttention && isAttentionCheckInProgress === false){
         if (enableLogs){
         console.log("triggered attentionCheck");

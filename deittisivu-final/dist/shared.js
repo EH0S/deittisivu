@@ -8,7 +8,7 @@ let testingProfiles = [
 export default testingProfiles;
 
 // enable testingProfiles:
-//localStorage.setItem('Profiles', JSON.stringify(testingProfiles));
+localStorage.setItem('Profiles', JSON.stringify(testingProfiles));
 
 
 let storedProfiles = JSON.parse(localStorage.getItem('Profiles'));
@@ -22,20 +22,21 @@ export {storedProfiles};
 
 
 // enable attentionCheck for contact
-const enableAttention = true; 
+const enableAttention = false; 
 export {enableAttention}
 const enableLogs = true;
 export {enableLogs}
 
 let yourProfile = [
-    {firstname: 'juha', bio: 'rauhallisesti elämässä eteenpäi!', pics: 'https://cdn.discordapp.com/attachments/952836235708235780/1095536926724997210/download.jpg?ex=656fdd45&is=655d6845&hm=e3c52f54eb263e62f90bf0d26ea7a48f4331dfc7f883b5d034d727203d350537&'}
+    {nimi: 'juha', bio: 'rauhallisesti elämässä eteenpäi!', images: 'https://cdn.discordapp.com/attachments/952836235708235780/1095536926724997210/download.jpg?ex=656fdd45&is=655d6845&hm=e3c52f54eb263e62f90bf0d26ea7a48f4331dfc7f883b5d034d727203d350537&'}
     ];
 export  {yourProfile}
 
-//yourProfile[0].username = 'pertti';
+
 
 //disable this when linking your actual profile
-localStorage.setItem('yourProfile', JSON.stringify(yourProfile));
+// enable to enable the premade profile for your account
+//localStorage.setItem('yourProfile', JSON.stringify(yourProfile));
 //
 
 
