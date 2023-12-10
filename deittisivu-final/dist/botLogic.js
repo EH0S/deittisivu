@@ -161,11 +161,13 @@ function attentionCheck(contact){
 }
 export {attentionCheck}
 
-
+// Function to determine a response based on the message received
 function determineMessage(message) {
     for (let i = 0; i < triggers.length; i++) {
         let [regex, responses] = triggers[i];
 
+
+        // Checks for match
         if (regex.test(message)) {
             let responseIndex = Math.floor(Math.random() * responses.length);
             
@@ -221,6 +223,7 @@ function determineContact() {
 }
 export {determineContact};
 
+// Send bot message as an response
 function botMessages(contact) {
    // let contact = //determineContact();
     var message = determineMessage(getLatestMessage(contact,storedYourProfile[0].nimi),);

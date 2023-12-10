@@ -124,6 +124,7 @@ export {loadChats}
 // }
 
 
+// Create your messages
 function appendMessage(contact) {
     var inputElement = document.getElementById('chatInput-' + contact);
     var message = inputElement.value;
@@ -143,7 +144,7 @@ function appendMessage(contact) {
     
 }
 
-
+// Update messages
 function updateChatMessagesDisplay(contact) {
     
     var today = new Date();
@@ -151,7 +152,7 @@ function updateChatMessagesDisplay(contact) {
     var chatMessagesDiv = document.getElementById('chatMessages-' + contact);
     var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
     
-    chatMessagesDiv.innerHTML = chatData.map(msg => {
+    chatMessagesDiv.innerHTML = chatData.map(msg => { // Create HTML strings for each chat message in the chatData array and assign them to the chatMessagesDiv element.
         var msgDate = new Date(msg.timestamp);
         var displayTime;
 
