@@ -45,7 +45,7 @@ function kirjauduSisaan() {
 function luoKayttaja(){
     document.getElementById("kayttajanLuominen").style.display = "block";
     document.getElementById("etusivu").style.display = "none";
-    inforuutu.innerHTML = "<i>hejsan</i>";
+    inforuutu.innerHTML = "<i></i>";
 }
 
 function vahvistaKayttaja(){
@@ -86,6 +86,11 @@ function vahvistaKayttaja(){
             const image = input.files[0];
     
             if (image) {
+                if (image.size >= 1 * 1024 * 1024) {
+                    inforuutu.innerHTML = "Error: File size exceeds 10MB";
+                    alert("liia iso bro");
+                    return;
+                }
                 const reader = new FileReader();
     
                 reader.onload = function (event) {
@@ -95,10 +100,6 @@ function vahvistaKayttaja(){
                     // Store the user data in localStorage after all images are loaded
                     if (userData.images.length === 3) {
                         var userDatas = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
-                        
-
-
-
                         userDatas.push(userData)
                         localStorage.setItem("käyttäjät", JSON.stringify(userDatas));
                         document.getElementById("etusivu").style.display = "block";
@@ -165,10 +166,8 @@ function peruutaAlkuun(){
 function kirjauduUlos(){
     inforuutu.innerHTML = `<b>${kirjautunut}</b> kirjattu ulos, näkemiin!`;
     kirjautunut = null;
-    //document.getElementById("etusivu").style.display = "block";
-    //document.getElementById("miessivut").style.display = "none";
-    //document.getElementById("editor").style.display = "none";
     window.location.href = 'kirjautuminen.html';
+    localStorage.removeItem('käyttäjät', JSON.stringify(käyttäjät));
 }
 //avaa editoi sivun
 function editoi() {
