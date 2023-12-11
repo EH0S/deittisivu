@@ -8,7 +8,7 @@ let testingProfiles = [
 export default testingProfiles;
 
 // enable testingProfiles:
-localStorage.setItem('Profiles', JSON.stringify(testingProfiles));
+//localStorage.setItem('Profiles', JSON.stringify(testingProfiles));
 
 
 let storedProfiles = JSON.parse(localStorage.getItem('Profiles'));

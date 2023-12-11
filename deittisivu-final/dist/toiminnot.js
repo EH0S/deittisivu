@@ -98,7 +98,7 @@ function vahvistaKayttaja(){
                     userData.images.push(pfp);
     
                     // Store the user data in localStorage after all images are loaded
-                    if (userData.images.length === 3) {
+                    if (userData.images.length >= 2) {
                         var userDatas = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
                         userDatas.push(userData)
                         localStorage.setItem("käyttäjät", JSON.stringify(userDatas));
@@ -170,42 +170,45 @@ function kirjauduUlos(){
     localStorage.removeItem('käyttäjät', JSON.stringify(käyttäjät));
 }
 //avaa editoi sivun
-function editoi() {
-    inforuutu.innerHTML = "";
-    document.getElementById("miessivut").style.display = "none";
-    document.getElementById("editor").style.display = "block";
-    let nimi = kirjautunut; // Get the logged-in username
-    let tallennettuData = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.href.endsWith("asetukset.html")) {
+        let nimi = localStorage.getItem('kirjautunut'); // Get the logged-in username
+        let tallennettuData = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
+        
 
-    // Find the user by their name
-    let foundUser = tallennettuData.find(user => user.nimi === nimi);
+        // Find the user by their name
+        let foundUser = tallennettuData.find(user => user.nimi === nimi);
 
-    if (foundUser) {
-        let images = foundUser.images;
+        if (foundUser) {
+            let images = foundUser.images;
 
-        // Set image URLs to preview elements
-        const previewImage1 = document.getElementById('kuva1');
-        const previewImage2 = document.getElementById('kuva2');
-        const previewImage3 = document.getElementById('kuva3');
+            // Set image URLs to preview elements
+            const previewImage1 = document.getElementById('kuva1');
+            const previewImage2 = document.getElementById('kuva2');
+            const previewImage3 = document.getElementById('kuva3');
 
-        if (images && images.length >= 3) {
-            previewImage1.setAttribute('src', images[0]); // Set image URL directly
-            previewImage2.setAttribute('src', images[1]); // Set image URL directly
-            previewImage3.setAttribute('src', images[2]); // Set image URL directly
-            console.log('Image 1 URL:', images[0]);
-            console.log('Image 2 URL:', images[1]);
-            console.log('Image 3 URL:', images[2]);
+            if (images && images.length <= 3) {
+                previewImage1.setAttribute('src', images[0]); // Set image URL directly
+                previewImage2.setAttribute('src', images[1]); // Set image URL directly
+                previewImage3.setAttribute('src', images[2]); // Set image URL directly
+                console.log('Image 1 URL:', images[0]);
+                console.log('Image 2 URL:', images[1]);
+                console.log('Image 3 URL:', images[2]);
+            } else {
+                console.log('Images not available or insufficient images.');
+            }
         } else {
-            console.log('Images not available or insufficient images.');
+            console.log('User data not found.');
         }
-    } else {
-        console.log('User data not found.');
+        console.log("hehe");
+            
+
+
     }
-}
+});
+
 
 function palaa(){
-    document.getElementById("miessivut").style.display = "block";
-    document.getElementById("editor").style.display = "none";
     window.location.href = 'swipe.html';
     
 }
@@ -256,7 +259,7 @@ function tallenna() {
 
     // Loop through each input file element
     inputElements.forEach((input, index) => {
-        if (input.files && input.files[0] && index < 3) { // Consider only the first three inputs
+        if (input.files && input.files[0] && index <= 3) { // Consider only the first three inputs
             const image = input.files[0];
             const reader = new FileReader();
 
