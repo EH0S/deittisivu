@@ -8,15 +8,17 @@ body {
 
 #sidebar {
     margin-top: 30px;
-    width: 200px;
     background-color: #f1f1f1;
-    padding: 20px;
+    margin-left: 1px;
+    margin-right: 5px;
+    height: 432px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     width: auto;
     border: 2px solid #2c2b2b;
     background-color: #171717;
     border-radius: 5px;
-    
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #chat-container {
@@ -36,6 +38,8 @@ body {
     padding: 10px;
     border-radius: 5px;
     background-color: #1f1f1f;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .chat-window {
@@ -163,7 +167,7 @@ p{
     cursor: text;
   }
   
-  form:hover {
+  form:hover, button:hover {
     
     border: 1px solid;
   }
@@ -208,6 +212,22 @@ p{
     border-radius: 8px;
     cursor: pointer;
     margin-left: 10px;
+    margin-right: 10px;
+  }
+  .backBtn{
+    font-size: 20px;
+    background-color: #313131;
+    color: rgba(145, 144, 144, 0.726);
+    width: 85%;
+    height: 40px;
+
+    border: 1px solid #313131;
+    border-radius: 8px;
+    cursor: pointer;
+    margin:10px;
+    white-space: nowrap;
+    overflow: hidden;
+    
   }
   
 

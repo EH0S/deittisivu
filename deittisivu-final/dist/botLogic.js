@@ -102,8 +102,11 @@ function startConversation(contact){
     
     localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
 
-    updateChatMessagesDisplay(contact);
-    pushNotify(contact,message)
+    //updateChatMessagesDisplay(contact); // disable when project is completed
+    setTimeout(() => {
+        pushNotify(contact,message);
+    }, 5000)
+    
     
     //console.log("hihihh", storedProfiles.findIndex(contact));
     if (enableAttention && isAttentionCheckInProgress === false){
