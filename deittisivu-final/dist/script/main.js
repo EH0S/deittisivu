@@ -1,7 +1,6 @@
 import templateGuys from "../templateGuys.json" assert { type: "json" };
 import templateWomen from "../templateWomen.json" assert { type: "json" };
 
-
 let namelabel = document.querySelector("#name_label");
 let ageLabel = document.querySelector("#age_label");
 let descLabel = document.querySelector("#desc_label");
@@ -202,6 +201,7 @@ function isMatch() {
       localStorage.setItem("Profiles", JSON.stringify(matchData));
       startConversation(determineContact());
     }
+    pushNotify();
     
     loadRandomProfile();
   }
@@ -209,5 +209,25 @@ function isMatch() {
 
 function onReject() {
   loadRandomProfile(); //just skip
+}
+
+function pushNotify() {
+  new Notify({
+    status: 'info',
+    title: "It's a match!!",
+    text: 'Sinulla saattaa nyt olla uusi viesti! - Chat',
+    effect: 'fade',
+    speed: 300,
+    customClass: null,
+    customIcon: null,
+    showIcon: true,
+    showCloseButton: true,
+    autoclose: true,
+    autotimeout: 3000,
+    gap: 20,
+    distance: 20,
+    type: 1,
+    position: 'center'
+  })
 }
 
