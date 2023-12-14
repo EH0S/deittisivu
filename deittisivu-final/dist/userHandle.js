@@ -34,13 +34,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-
-
-
-testButton.onclick = function() {
-    
-    
-}
 startButton.onclick = function(){
     // this function will execute when new match is found
     startConversation(determineContact());

@@ -200,8 +200,9 @@ function isMatch() {
       
       localStorage.setItem("Profiles", JSON.stringify(matchData));
       startConversation(determineContact());
+      pushNotify(currentSwipeProfile);
     }
-    pushNotify();
+    //pushNotify();
     
     loadRandomProfile();
   }
@@ -211,11 +212,11 @@ function onReject() {
   loadRandomProfile(); //just skip
 }
 
-function pushNotify() {
+function pushNotify(matchedProfile) {
   new Notify({
     status: 'info',
     title: "It's a match!!",
-    text: 'Sinulla saattaa nyt olla uusi viesti! - Chat',
+    text: `Matchasit henkilön ${matchedProfile.firstname} kanssa!`,
     effect: 'fade',
     speed: 300,
     customClass: null,
