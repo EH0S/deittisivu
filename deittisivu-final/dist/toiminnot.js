@@ -213,36 +213,18 @@ function palaa(){
     
 }
 
-function luoAanestys(){
-    document.getElementById("aanestyksenLuominen").style.display = "block";
-    document.getElementById("yllapitajanEtusivu").style.display = "none";
-    inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Olet rooliltasi <b>Ylläpitäjä</b>.`;
-}
-
-function peruutaEtusivulle(){
-    if(localStorage.getItem(`${kirjautunut};&`) == "yllapitaja"){
-        document.getElementById("yllapitajanEtusivu").style.display = "block";
-        document.getElementById("aanestyksenLuominen").style.display = "none";
-        document.getElementById("uusiAanestysNimi").value = "";
-        document.getElementById("uusiEhdokas1").value = "";
-        document.getElementById("uusiEhdokas2").value = "";
-        inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Olet rooliltasi <b>Ylläpitäjä</b>.`;
-    } else {
-        document.getElementById("aanestajanEtusivu").style.display = "block";
-        document.getElementById("katsoAanestysta").style.display = "none";
-        inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Olet rooliltasi <b>Äänestäjä</b>.`;
-    }
-}
 
 function tallenna() {
     let loggedUserName = localStorage.getItem('kirjautunut');
     let käyttäjät = JSON.parse(localStorage.getItem('käyttäjät')) || [];
-    let loggedUser = käyttäjät.find(user => user.nimi === loggedUserName);
+    let loggedUserIndex = käyttäjät.findIndex(user => user.nimi === loggedUserName);
 
-    if (!loggedUser) {
-        console.log('User not logged in.');
+    if (loggedUserIndex === -1) {
+        console.log('User not logged in or found.');
         return;
     }
+
+    let loggedUser = käyttäjät[loggedUserIndex];
 
     // Get the updated email value from the input field
     let newEmail = document.getElementById('sposti1').value;
@@ -254,12 +236,12 @@ function tallenna() {
     loggedUser.sahkoposti = newEmail;
     loggedUser.kerro = newAbout;
 
-    // Get all input elements of type file
+    // Get all input elements of type file for profile pictures
     const inputElements = document.querySelectorAll('input[type="file"][id^="uuskuva"]');
 
     // Loop through each input file element
     inputElements.forEach((input, index) => {
-        if (input.files && input.files[0] && index <= 3) { // Consider only the first three inputs
+        if (input.files && input.files[0] && index < 3) { // Consider only the first three inputs
             const image = input.files[0];
             const reader = new FileReader();
 
@@ -274,12 +256,20 @@ function tallenna() {
                 }
 
                 console.log(`Profile picture ${index + 1} updated for ${loggedUserName}`);
+
+                // Store the modified user data back in the 'käyttäjät' array
+                käyttäjät[loggedUserIndex] = loggedUser;
+
+                // Update the 'käyttäjät' array in the local storage
+                localStorage.setItem('käyttäjät', JSON.stringify(käyttäjät));
             };
 
             reader.readAsDataURL(image);
         }
     });
 
-    // Store updated 'käyttäjät' array back in local storage
+    // Update other user data as needed...
+
+    // Store the 'käyttäjät' array back in local storage after all updates
     localStorage.setItem('käyttäjät', JSON.stringify(käyttäjät));
 }
