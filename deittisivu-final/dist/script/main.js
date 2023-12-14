@@ -5,6 +5,11 @@ let namelabel = document.querySelector("#name_label");
 let ageLabel = document.querySelector("#age_label");
 let descLabel = document.querySelector("#desc_label");
 
+//DEFAULT_FILTER_CONFIGURATION
+localStorage.setItem("countryFilter", "FI");
+localStorage.setItem("genderFilter", "female");
+localStorage.setItem("distanceFilter", 13598130590);
+
 let currentSwipeProfile = undefined;
 let currentSwipeIndex = undefined;
 let startX = 0,
