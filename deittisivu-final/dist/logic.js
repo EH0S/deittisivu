@@ -14,7 +14,7 @@ import { getMessageCount } from './shared.js';
 
 function openChat(contact) {
    
-    var chatWindow = document.getElementById('chat-' + contact);
+    var chatWindow = document.getElementById(storedYourProfile[0].nimi+'-chat-' + contact);
     const chatWindows = document.getElementsByClassName('chat-window');
     for (let i = 0; i < chatWindows.length; i++) {
         chatWindows[i].style.display = 'none';
@@ -40,7 +40,7 @@ function loadChats(contact){
 
         if (!chatWindow) {
             chatWindow = document.createElement('div');
-            chatWindow.setAttribute('id', 'chat-' + contact);
+            chatWindow.setAttribute('id', storedYourProfile[0].nimi+'-chat-' + contact);
             chatWindow.classList.add('chat-window');
     
             var chatHeader = document.createElement("h2");
@@ -49,7 +49,7 @@ function loadChats(contact){
     
             var chatMessagesDiv = document.createElement("div");
             chatMessagesDiv.classList.add('chat-messages');
-            chatMessagesDiv.id = 'chatMessages-' + contact;
+            chatMessagesDiv.id = storedYourProfile[0].nimi + '-chatMessages-' + contact;
             chatWindow.appendChild(chatMessagesDiv);
     
 
@@ -63,7 +63,7 @@ function loadChats(contact){
             inputElement.type = "text";
             inputElement.name = "text";
             inputElement.classList.add("input");
-            inputElement.id = 'chatInput-' + contact;
+            inputElement.id = storedYourProfile[0].nimi + '-chatInput-' + contact;
             inputElement.placeholder = "Kirjoita tähän...";
             
             
@@ -126,20 +126,20 @@ export {loadChats}
 
 // Create your messages
 function appendMessage(contact) {
-    var inputElement = document.getElementById('chatInput-' + contact);
+    var inputElement = document.getElementById(storedYourProfile[0].nimi+'-chatInput-' + contact);
     var message = inputElement.value;
     inputElement.value = '';
 
     if (message.trim() === '') return;
 
-    var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
+    var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
     chatData.push({
         sender: `${storedYourProfile[0].nimi}`,
         message: message,
         timestamp: new Date().toISOString()
     });
 
-    localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
+    localStorage.setItem(storedYourProfile[0].nimi+'-chat-' + contact, JSON.stringify(chatData));
     updateChatMessagesDisplay(contact);
     
 }
@@ -149,8 +149,8 @@ function updateChatMessagesDisplay(contact) {
     
     var today = new Date();
     var todayStr = today.toDateString();
-    var chatMessagesDiv = document.getElementById('chatMessages-' + contact);
-    var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
+    var chatMessagesDiv = document.getElementById(storedYourProfile[0].nimi+'-chatMessages-' + contact);
+    var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
     
     chatMessagesDiv.innerHTML = chatData.map(msg => { // Create HTML strings for each chat message in the chatData array and assign them to the chatMessagesDiv element.
         var msgDate = new Date(msg.timestamp);

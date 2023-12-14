@@ -91,7 +91,7 @@ let triggers = [
 function startConversation(contact){
     var message = greetingsTable[Math.floor(Math.random() * greetingsTable.length)];
     
-    var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
+    var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
 
     chatData.push({
         sender: contact,
@@ -100,7 +100,7 @@ function startConversation(contact){
     });
 
     
-    localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
+    localStorage.setItem(storedYourProfile[0].nimi+'-chat-' + contact, JSON.stringify(chatData));
 
     //updateChatMessagesDisplay(contact); // disable when project is completed
     setTimeout(() => {
@@ -186,7 +186,7 @@ export {determineMessage};
 function sendBotMsg(contact,msg){
     var message = msg;
     
-    var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
+    var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
 
     chatData.push({
         sender: contact,
@@ -195,7 +195,7 @@ function sendBotMsg(contact,msg){
     });
 
     
-    localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
+    localStorage.setItem(storedYourProfile[0].nimi+'-chat-' + contact, JSON.stringify(chatData));
 
     updateChatMessagesDisplay(contact);
     
@@ -204,7 +204,7 @@ function sendBotMsg(contact,msg){
 export {sendBotMsg};
 
 function determineContact() {
-    let storedProfiles = JSON.parse(localStorage.getItem('Profiles'));
+    let storedProfiles = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-Profiles'));
     //testingProfiles[Math.floor(Math.random() * testingProfiles.length)].username;
     if (enableAttention){
         return storedProfiles[0].firstname;
@@ -238,7 +238,7 @@ function botMessages(contact) {
     }
     
     
-    var chatData = JSON.parse(localStorage.getItem('chat-' + contact) || '[]');
+    var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
 
     chatData.push({
         sender: contact,
@@ -262,14 +262,14 @@ function botMessages(contact) {
             dotsContainer.appendChild(dot);
         }
     
-        var chatMessagesDiv = document.getElementById('chatMessages-' + contact);
+        var chatMessagesDiv = document.getElementById(storedYourProfile[0].nimi+'-chatMessages-' + contact);
         chatMessagesDiv.appendChild(contactMessageDiv);
         contactMessageDiv.appendChild(dotsContainer);
         chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
     }, 1500);
 
     setTimeout(() => {
-    localStorage.setItem('chat-' + contact, JSON.stringify(chatData));
+    localStorage.setItem(storedYourProfile[0].nimi+'-chat-' + contact, JSON.stringify(chatData));
     updateChatMessagesDisplay(contact);
     pushNotify(contact, message);
     }, Math.floor(Math.random() * 7000) + 2000);

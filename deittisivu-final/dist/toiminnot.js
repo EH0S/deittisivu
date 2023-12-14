@@ -167,7 +167,7 @@ function kirjauduUlos(){
     inforuutu.innerHTML = `<b>${kirjautunut}</b> kirjattu ulos, näkemiin!`;
     kirjautunut = null;
     window.location.href = 'kirjautuminen.html';
-    localStorage.removeItem('käyttäjät', JSON.stringify(käyttäjät));
+    localStorage.removeItem('kirjautunut');
 }
 //avaa editoi sivun
 document.addEventListener("DOMContentLoaded", function() {
@@ -244,6 +244,7 @@ function tallenna() {
         if (input.files && input.files[0] && index < 3) { // Consider only the first three inputs
             const image = input.files[0];
             const reader = new FileReader();
+            var profile = JSON.parse(localStorage.getItem('yourProfile'));
 
             reader.onload = function(event) {
                 // Save the image URLs directly at the respective indexes
@@ -254,7 +255,8 @@ function tallenna() {
                 if (previewImage) {
                     previewImage.setAttribute('src', loggedUser.images[index]);
                 }
-
+                profile[0].images[0] = loggedUser.images[0];
+                localStorage.setItem('yourProfile', JSON.stringify(profile));
                 console.log(`Profile picture ${index + 1} updated for ${loggedUserName}`);
 
                 // Store the modified user data back in the 'käyttäjät' array

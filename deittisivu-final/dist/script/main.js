@@ -6,9 +6,9 @@ let ageLabel = document.querySelector("#age_label");
 let descLabel = document.querySelector("#desc_label");
 
 //DEFAULT_FILTER_CONFIGURATION
-localStorage.setItem("countryFilter", "FI");
-localStorage.setItem("genderFilter", "female");
-localStorage.setItem("distanceFilter", 13598130590);
+localStorage.setItem(storedYourProfile[0].nimi+"-countryFilter", "FI");
+localStorage.setItem(storedYourProfile[0].nimi+"-genderFilter", "female");
+localStorage.setItem(storedYourProfile[0].nimi+"-distanceFilter", 13598130590);
 
 let currentSwipeProfile = undefined;
 let currentSwipeIndex = undefined;
@@ -41,7 +41,7 @@ function loadRandomProfile() {
   let randomIndex = undefined;
   let attempts = 0;
   const maxAttempts = 100;
-  const filterGender = localStorage.getItem("genderFilter");
+  const filterGender = localStorage.getItem(storedYourProfile[0].nimi+"-genderFilter");
   console.log(filterGender);
   let isValidIndex = false;
   do {
@@ -90,9 +90,9 @@ function loadRandomProfile() {
 }
 
 function isValidFilter(account) {
-  const filterGender = localStorage.getItem("genderFilter");
-  const filterCountry = localStorage.getItem("countryFilter");
-  const filterDistance = localStorage.getItem("distanceFilter");
+  const filterGender = localStorage.getItem(storedYourProfile[0].nimi+"-genderFilter");
+  const filterCountry = localStorage.getItem(storedYourProfile[0].nimi+"-countryFilter");
+  const filterDistance = localStorage.getItem(storedYourProfile[0].nimi+"-distanceFilter");
 
   const isValidGender = filterGender === account.gender ? true : false;
   const isValidCountry = filterCountry === account.country ? true : false;
@@ -185,6 +185,7 @@ function onAccept() {
 }
 import { startConversation } from '../botLogic.js';
 import { determineContact } from "../botLogic.js";
+import { storedYourProfile } from "../shared.js";
 function isMatch() {
   const random = Math.random();
   if (random < 0.5) {
@@ -193,7 +194,7 @@ function isMatch() {
   } else if (random < 0.7) {
     //match
 
-    var matchData = JSON.parse(localStorage.getItem("Profiles") || '[]');
+    var matchData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+"-Profiles") || '[]');
     console.log(matchData[0]);
 
     const alreadyMatch = matchData.some(profile => profile.firstname === currentSwipeProfile.firstname);
@@ -203,7 +204,7 @@ function isMatch() {
       
       matchData.push(currentSwipeProfile)
       
-      localStorage.setItem("Profiles", JSON.stringify(matchData));
+      localStorage.setItem(storedYourProfile[0].nimi+"-Profiles", JSON.stringify(matchData));
       startConversation(determineContact());
       pushNotify(currentSwipeProfile);
     }

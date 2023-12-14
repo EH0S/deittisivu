@@ -9,13 +9,16 @@ export default testingProfiles;
 
 // enable testingProfiles:
 //localStorage.setItem('Profiles', JSON.stringify(testingProfiles));
+let storedYourProfile = JSON.parse(localStorage.getItem('yourProfile'));
 
 
-let storedProfiles = JSON.parse(localStorage.getItem('Profiles'));
 
-// exampel how to add new profiles
-//const newProfile = { username: 'Irmeli', pfp: 'https://media.discordapp.net/attachments/433293359054979073/1180536561662693437/384756761_768600311735690_7590684852044663136_n.png?ex=657dc759&is=656b5259&hm=15fd963ce60703ef2a016c87ea589021caf4666c03a9783feb8cfed0eec63084&=&format=webp&quality=lossless&width=1052&height=701' };
-//storedProfiles.push(newProfile);
+
+export {storedYourProfile}
+
+let storedProfiles = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-Profiles'));
+
+
 
 
 export {storedProfiles};
@@ -27,10 +30,6 @@ export {enableAttention}
 const enableLogs = true;
 export {enableLogs}
 
-let yourProfile = [
-    {nimi: 'juha', bio: 'rauhallisesti elämässä eteenpäi!', images: 'https://cdn.discordapp.com/attachments/952836235708235780/1095536926724997210/download.jpg?ex=656fdd45&is=655d6845&hm=e3c52f54eb263e62f90bf0d26ea7a48f4331dfc7f883b5d034d727203d350537&'}
-    ];
-export  {yourProfile}
 
 
 
@@ -40,12 +39,7 @@ export  {yourProfile}
 //
 
 
-let storedYourProfile = JSON.parse(localStorage.getItem('yourProfile'));
 
-
-
-
-export {storedYourProfile}
 
 
 function findProfileByIndex(contact){
@@ -54,7 +48,7 @@ function findProfileByIndex(contact){
 export {findProfileByIndex};
 
 function filterChatByName(contact,victim){
-    let storedData = localStorage.getItem('chat-' + contact);
+    let storedData = localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact);
     
     if (storedData) {
         let loadMessages = JSON.parse(storedData);
@@ -86,7 +80,7 @@ function filterChatByName(contact,victim){
 export {filterChatByName}
 function getLatestMessage(contact,victim){
     let target;
-    let storedData = localStorage.getItem('chat-' + contact);
+    let storedData = localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact);
     if (storedData){
         let loadMessages = JSON.parse(storedData);
         if (victim === undefined){
@@ -105,7 +99,7 @@ function getLatestMessage(contact,victim){
 export {getLatestMessage}
 
 function getMessageCount(contact,victim){
-    let storedData = localStorage.getItem('chat-' + contact);
+    let storedData = localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact);
     let target;
     if (storedData){
         let loadMessages = JSON.parse(storedData);
