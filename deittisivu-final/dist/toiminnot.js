@@ -98,7 +98,7 @@ function vahvistaKayttaja(){
                     userData.images.push(pfp);
     
                     // Store the user data in localStorage after all images are loaded
-                    if (userData.images.length >= 2) {
+                    if (userData.images.length >= 3) {
                         var userDatas = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
                         userDatas.push(userData)
                         localStorage.setItem("käyttäjät", JSON.stringify(userDatas));
