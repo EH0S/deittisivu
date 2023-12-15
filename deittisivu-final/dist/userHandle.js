@@ -1,4 +1,3 @@
-
 import testingProfiles from './shared.js';
 import { storedProfiles } from './shared.js';
 import {openChat} from './logic.js'
@@ -23,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (window.location.href.endsWith("chat.html")) {
        
         console.log("This is chat.html");
-        // reversing array
+        // Reversing the array of stored profiles so that the most recently added profiles are displayed first.
         for (var i = storedProfiles.length - 1; i >= 0; i--) {
             loadChats(storedProfiles[i].firstname);
             createContact(storedProfiles[i].firstname, storedProfiles[i].pics);
@@ -32,12 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
         let testButton = document.getElementById('test');
         let startButton = document.getElementById('start');
 
-
-
-startButton.onclick = function(){
-    // this function will execute when new match is found
-    startConversation(determineContact());
-}
     }
 
     
@@ -48,9 +41,11 @@ startButton.onclick = function(){
 
 function createContact(firstname, pics) {
     
+    // Create a div element to represent the contact.
     let contact = document.createElement('div');
     contact.classList.add('contact');
 
+    // Create an img element to display the contact's profile picture.
     let img = document.createElement('img');
     img.src = pics[0];
     img.style.width = '40px';
@@ -60,19 +55,23 @@ function createContact(firstname, pics) {
     
     
 
+    // Create a span element to display the contact's username.
     let usernameSpan = document.createElement('span');
     usernameSpan.textContent = firstname;
     usernameSpan.style.paddingLeft = '15px';
 
     
+    // Add an onclick event listener to the contact div so that it opens the chat window for the corresponding contact when clicked.
     contact.onclick = function() {
         openChat(firstname);
         //loadChats(username)
     };
     //openChat(username);
+    // Append the img and username span elements to the contact div.
     contact.appendChild(img);
     contact.appendChild(usernameSpan);
     
+    // Append the contact div to the sidebar div.
     document.getElementById('sidebar').appendChild(contact);
 }
 
@@ -98,6 +97,7 @@ function pushNotify(firstname,message) {
       type: 1,
       position: 'x-center '
     });
+
     const notifyDivs = document.querySelectorAll('.notify');
     notifyDivs.forEach(div => {
         div.addEventListener('click', () => {
@@ -108,5 +108,6 @@ function pushNotify(firstname,message) {
   }
 
 export {pushNotify}
+
 
 

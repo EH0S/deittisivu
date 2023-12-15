@@ -1,7 +1,5 @@
-
-
 let testButton = document.getElementById('test');
-import testingProfiles from './shared.js';
+import testingProfiles, { enableAttention } from './shared.js';
 import { storedProfiles } from './shared.js';
 import {findProfileByIndex} from './shared.js';
 import {filterChatByName} from './shared.js';
@@ -10,169 +8,184 @@ import {botMessages} from './botLogic.js'
 import { storedYourProfile } from './shared.js';
 import {enableLogs} from './shared.js';
 import { getMessageCount } from './shared.js';
+import {test,userHasRespondedSinceCheck} from './shared.js';
 
 
+// This function opens the chat window for a specific contact.
 function openChat(contact) {
-   
-    var chatWindow = document.getElementById(storedYourProfile[0].nimi+'-chat-' + contact);
-    const chatWindows = document.getElementsByClassName('chat-window');
-    for (let i = 0; i < chatWindows.length; i++) {
-        chatWindows[i].style.display = 'none';
-        //console.log("hiding chat window...",chatWindows[i])
-    }
+  // Get the chat window for the specified contact.
+  var chatWindow = document.getElementById(storedYourProfile[0].nimi+'-chat-' + contact);
 
-    chatWindow.style.display = 'block';
-    //console.log(contact+"'s index in array is",findProfileByIndex(contact));
-   
-    updateChatMessagesDisplay(contact);
-    if (enableLogs){
-    
+  // Hide all other chat windows.
+  const chatWindows = document.getElementsByClassName('chat-window');
+  for (let i = 0; i < chatWindows.length; i++) {
+    chatWindows[i].style.display = 'none';
+  }
+
+  // Show the chat window for the specified contact.
+  chatWindow.style.display = 'block';
+
+  // Update the chat messages display.
+  updateChatMessagesDisplay(contact);
+
+  if (enableLogs) {
     console.log(filterChatByName(contact,`${storedYourProfile[0].nimi}`));
     //console.log(getLatestMessage(contact,yourProfile[0].username))
     //console.log(getMessageCount(contact));
-    }
+  }
 }
 export {openChat};
 
+// This function loads the chats for a specific contact.
 function loadChats(contact){
 
-        var chatWindow = document.getElementById('chat-' + contact);
+  // Get the chat window for the specified contact.
+  var chatWindow = document.getElementById('chat-' + contact);
 
-        if (!chatWindow) {
-            chatWindow = document.createElement('div');
-            chatWindow.setAttribute('id', storedYourProfile[0].nimi+'-chat-' + contact);
-            chatWindow.classList.add('chat-window');
-    
-            var chatHeader = document.createElement("h2");
-            chatHeader.textContent = "Keskustelu - " + contact;
-            chatWindow.appendChild(chatHeader);
-    
-            var chatMessagesDiv = document.createElement("div");
-            chatMessagesDiv.classList.add('chat-messages');
-            chatMessagesDiv.id = storedYourProfile[0].nimi + '-chatMessages-' + contact;
-            chatWindow.appendChild(chatMessagesDiv);
-    
+  // If the chat window does not exist, create it.
+  if (!chatWindow) {
+    chatWindow = document.createElement('div');
+    chatWindow.setAttribute('id', storedYourProfile[0].nimi+'-chat-' + contact);
+    chatWindow.classList.add('chat-window');
 
-            
-            var chatInput = document.createElement("div");
-            chatInput.classList.add("search-label");
+    // Create a header for the chat window.
+    var chatHeader = document.createElement("h2");
+    chatHeader.textContent = "Keskustelu - " + contact;
+    chatWindow.appendChild(chatHeader);
 
-            var formElement = document.createElement("form"); 
+    // Create a div to hold the chat messages.
+    var chatMessagesDiv = document.createElement("div");
+    chatMessagesDiv.classList.add('chat-messages');
+    chatMessagesDiv.id = storedYourProfile[0].nimi + '-chatMessages-' + contact;
+    chatWindow.appendChild(chatMessagesDiv);
 
-            var inputElement = document.createElement("input");
-            inputElement.type = "text";
-            inputElement.name = "text";
-            inputElement.classList.add("input");
-            inputElement.id = storedYourProfile[0].nimi + '-chatInput-' + contact;
-            inputElement.placeholder = "Kirjoita tähän...";
-            
-            
+    // Create a div to hold the chat input.
+    var chatInput = document.createElement("div");
+    chatInput.classList.add("search-label");
 
-            var sendButton = document.createElement("button");
-            sendButton.textContent = "→";
-            sendButton.type = "submit"; 
-            sendButton.classList.add("sendBtn");
-           
-            sendButton.onclick = function() {
-                event.preventDefault();
-                if (inputElement.value.length > 0){
-                    appendMessage(contact);
-                    botMessages(contact);
-                }
-                else {
-                    console.log("empty input");
-                }
-                
-            };
-            
+    // Create a form to hold the chat input and send button.
+    var formElement = document.createElement("form"); 
 
-            formElement.appendChild(inputElement); 
-            formElement.appendChild(sendButton); 
+    // Create an input element for the chat input.
+    var inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.name = "text";
+    inputElement.classList.add("input");
+    inputElement.id = storedYourProfile[0].nimi + '-chatInput-' + contact;
+    inputElement.placeholder = "Kirjoita tähän...";
 
-            chatInput.appendChild(formElement);
+    // Create a send button for the chat input.
+    var sendButton = document.createElement("button");
+    sendButton.textContent = "→";
+    sendButton.type = "submit"; 
+    sendButton.classList.add("sendBtn");
 
-            chatWindow.appendChild(chatInput);
-    
-            document.getElementById('chat-container').appendChild(chatWindow);
-            
-        }
-    
-        console.log(contact+"'s index in array is",findProfileByIndex(contact));
+    // Add an onclick event listener to the send button.
+    sendButton.onclick = function() {
+      event.preventDefault();
+      if (inputElement.value.length > 0){
+        appendMessage(contact);
+        botMessages(contact);
+      }
+      else {
+        console.log("empty input");
+      }
+      
+    };
 
-        // display latest contact chat
-        if(findProfileByIndex(contact) == storedProfiles.length -1){
-            chatWindow.style.display = 'block';
+    // Add the input element and send button to the form.
+    formElement.appendChild(inputElement); 
+    formElement.appendChild(sendButton); 
 
-            updateChatMessagesDisplay(contact);
-        }
-       
+    // Add the form to the chat input div.
+    chatInput.appendChild(formElement);
+
+    // Add the chat input div to the chat window.
+    chatWindow.appendChild(chatInput);
+
+    // Add the chat window to the chat container.
+    document.getElementById('chat-container').appendChild(chatWindow);
+  }
+
+  // Display the latest contact chat if it is the last contact in the storedProfiles array.
+  if(findProfileByIndex(contact) == storedProfiles.length -1){
+    chatWindow.style.display = 'block';
+
+    updateChatMessagesDisplay(contact);
+  }
 }
 export {loadChats}
 
-// OLD CODE
-// function appendMessage(contact) {
-//     var message = document.getElementById('chatInput-' + contact).value;
-//     var chatMessages = document.getElementById('chatMessages-' + contact);
-
-//     chatMessages.innerHTML += `
-    
-//     <p>Sinä: ${message}</p>`;
-//     document.getElementById('chatInput-' + contact).value = '';
-
-//     // Save the updated chat data to localStorage
-//     localStorage.setItem('chat-' + contact, chatMessages.innerHTML);
-// }
 
 
-// Create your messages
+// This function appends a new message to the chat window for a specific contact.
 function appendMessage(contact) {
-    var inputElement = document.getElementById(storedYourProfile[0].nimi+'-chatInput-' + contact);
-    var message = inputElement.value;
-    inputElement.value = '';
+  // Get the input element for the chat input.
+  var inputElement = document.getElementById(storedYourProfile[0].nimi+'-chatInput-' + contact);
+  // Get the message from the input element.
+  var message = inputElement.value;
 
-    if (message.trim() === '') return;
+  inputElement.value = '';
 
-    var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
-    chatData.push({
-        sender: `${storedYourProfile[0].nimi}`,
-        message: message,
-        timestamp: new Date().toISOString()
-    });
+  if (message.trim() === '') return;
 
-    localStorage.setItem(storedYourProfile[0].nimi+'-chat-' + contact, JSON.stringify(chatData));
-    updateChatMessagesDisplay(contact);
-    
+  // Get the chat data for the specified contact.
+  var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
+
+  // Add the new message to the chat data.
+  chatData.push({
+    sender: `${storedYourProfile[0].nimi}`,
+    message: message,
+    timestamp: new Date().toISOString()
+  });
+
+  // Save the updated chat data to localStorage.
+  localStorage.setItem(storedYourProfile[0].nimi+'-chat-' + contact, JSON.stringify(chatData));
+
+  // Update the chat messages display.
+  updateChatMessagesDisplay(contact);
+  if (enableAttention){
+    test.bool = true;
+  }
+  
 }
 
 // Update messages
 function updateChatMessagesDisplay(contact) {
-    
-    var today = new Date();
-    var todayStr = today.toDateString();
-    var chatMessagesDiv = document.getElementById(storedYourProfile[0].nimi+'-chatMessages-' + contact);
-    var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
-    
-    chatMessagesDiv.innerHTML = chatData.map(msg => { // Create HTML strings for each chat message in the chatData array and assign them to the chatMessagesDiv element.
-        var msgDate = new Date(msg.timestamp);
-        var displayTime;
+  // Get the current date.
+  var today = new Date();
 
-        if (msgDate.toDateString() === todayStr) {
-            
-            displayTime = 'Tänään klo ' + msgDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-        } else {
-            
-            displayTime = msgDate.toLocaleString();
-        }
-                var pfpUrl, messageClass;
-        if (msg.sender === `${storedYourProfile[0].nimi}`) {
-            pfpUrl = storedYourProfile[0].images[0];
-            messageClass = 'my-message'; 
-        } else {
-            pfpUrl = storedProfiles[findProfileByIndex(contact)].pics[0];
-            messageClass = 'contact-message';
-        }
+  // Get the date string for the current day.
+  var todayStr = today.toDateString();
 
-        return `<div class="${messageClass}">
+  // Get the chat messages div for the specified contact.
+  var chatMessagesDiv = document.getElementById(storedYourProfile[0].nimi+'-chatMessages-' + contact);
+
+  // Get the chat data for the specified contact.
+  var chatData = JSON.parse(localStorage.getItem(storedYourProfile[0].nimi+'-chat-' + contact) || '[]');
+
+  // Create an HTML string for each chat message in the chatData array.
+  chatMessagesDiv.innerHTML = chatData.map(msg => {
+    var msgDate = new Date(msg.timestamp);
+    var displayTime;
+
+    if (msgDate.toDateString() === todayStr) {
+      
+      displayTime = 'Tänään klo ' + msgDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+    } else {
+      
+      displayTime = msgDate.toLocaleString();
+    }
+            var pfpUrl, messageClass;
+    if (msg.sender === `${storedYourProfile[0].nimi}`) {
+      pfpUrl = storedYourProfile[0].images[0];
+      messageClass = 'my-message'; 
+    } else {
+      pfpUrl = storedProfiles[findProfileByIndex(contact)].pics[0];
+      messageClass = 'contact-message';
+    }
+
+    return `<div class="${messageClass}">
             <p>
                 <small class="date">${displayTime}</small><br>
                 ${msg.sender !== `${storedYourProfile[0].nimi}` ? `<img src="${pfpUrl}" class="chatPfp">` : ''}
@@ -184,7 +197,9 @@ function updateChatMessagesDisplay(contact) {
         
             
     }).join('');
-    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+
+  // Scroll the chat messages div to the bottom.
+  chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
 }
 
 

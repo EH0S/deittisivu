@@ -186,6 +186,7 @@ function onAccept() {
 import { startConversation } from '../botLogic.js';
 import { determineContact } from "../botLogic.js";
 import { storedYourProfile } from "../shared.js";
+import { playSound } from "../shared.js";
 function isMatch() {
   const random = Math.random();
   if (random < 0.5) {
@@ -207,6 +208,7 @@ function isMatch() {
       localStorage.setItem(storedYourProfile[0].nimi+"-Profiles", JSON.stringify(matchData));
       startConversation(determineContact());
       pushNotify(currentSwipeProfile);
+      playSound();
     }
     //pushNotify();
     
@@ -236,5 +238,11 @@ function pushNotify(matchedProfile) {
     type: 1,
     position: 'center'
   })
+  const notifyDivs = document.querySelectorAll('.notify');
+  notifyDivs.forEach(div => {
+      div.addEventListener('click', () => {
+        window.location.href= "chat.html";
+      });
+    });
 }
 
