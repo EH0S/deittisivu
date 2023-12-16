@@ -3,7 +3,6 @@ var avaaja = null;
 var inforuutu = document.getElementById("info");
 
 function kirjauduSisaan() {
-    inforuutu.innerHTML = "<i>Tervetuloa deittisovellukseen</i>";
 
     let nimi = document.getElementById("kayttajaNimi").value;
     let sana = document.getElementById("salasana").value;
@@ -21,10 +20,6 @@ function kirjauduSisaan() {
             let rooli = foundUser.rooli;
             if (rooli === "mies") {
                 kirjautunut = nimi;
-                
-
-                
-
                 window.location.href = 'swipe.html';
                 inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Tervetuloa deitti appiin.`;
                 localStorage.setItem("kirjautunut", nimi);
@@ -49,7 +44,7 @@ function luoKayttaja(){
 }
 
 function vahvistaKayttaja(){
-    let rooli = document.getElementById("rooli").value;
+    let sukupuoli = document.getElementById("Sukupuoli").value;
     let nimi = document.getElementById("uusiKayttajaNimi").value;
     let sana = document.getElementById("uusiSalasana").value;
     let puhelin = document.getElementById("puh").value;
@@ -58,10 +53,10 @@ function vahvistaKayttaja(){
     let ikä = document.getElementById("ika").value;
 
     if(nimi.length < 3 || nimi.length > 20 || nimi.includes(" ") || nimi.includes(";") || nimi.includes("&") || nimi.includes("*") || nimi.includes("¤")){
-        inforuutu.innerHTML = " Nimen minimipituus on 3 ja maksimipituus 20 merkkiä. Älä käytä välilyöntiä, puolipistettä, &-, ¤- tai *-merkkejä.";
+        inforuutu.innerHTML = " Nimen minimipituus on 3. ";
         document.getElementById("uusiKayttajaNimi").value = "";
     }  else if(sana.length < 3 || sana.includes(";")){
-        inforuutu.innerHTML = "Salasanassa tulee olla vähintään 3 merkkiä eikä se saa sisältää puolipisteitä. Sen maksimipituus on 10 merkkiä.";
+        inforuutu.innerHTML = "Salasanassa tulee olla vähintään 3 merkkiä.";
         document.getElementById("uusiSalasana").value = "";
     }  else if(puhelin.length < 9 || puhelin.includes(";")){
         inforuutu.innerHTML = "Puhelin numerossa tulee olemaan vähintään 9 numeroa";
@@ -71,7 +66,7 @@ function vahvistaKayttaja(){
         // Initialize an object to store user data
         let userData = {
             nimi,
-            rooli,
+            sukupuoli,
             sana,
             puhelin,
             sahkoposti,
@@ -87,8 +82,8 @@ function vahvistaKayttaja(){
     
             if (image) {
                 if (image.size >= 1 * 1024 * 1024) {
-                    inforuutu.innerHTML = "Error: File size exceeds 10MB";
-                    alert("liia iso bro");
+                    inforuutu.innerHTML = "Kuva in liian iso";
+                    alert("liia iso kuva");
                     return;
                 }
                 const reader = new FileReader();
@@ -107,16 +102,16 @@ function vahvistaKayttaja(){
                         inforuutu.innerHTML = `Käyttäjä <b>${nimi}</b> luotu!`;
                         document.getElementById("uusiKayttajaNimi").value = "";
                         document.getElementById("uusiSalasana").value = "";
+                        document.getElementById("puh").value = "";
+                        document.getElementById("sposti").value = "";
+                        document.getElementById("kerro").value = "";
+                        document.getElementById("ika").value = "";
                     }
                 };
     
                 reader.readAsDataURL(image);
             }
         }
-    
-        handleImagePreview("thumbnailRegister");
-        handleImagePreview("thumbnailRegister2");
-        handleImagePreview("thumbnailRegister3");
     }
 }
 
@@ -161,6 +156,10 @@ function peruutaAlkuun(){
     document.getElementById("kayttajanLuominen").style.display = "none";
     document.getElementById("uusiKayttajaNimi").value = "";
     document.getElementById("uusiSalasana").value = "";
+    document.getElementById("puh").value = "";
+    document.getElementById("sposti").value = "";
+    document.getElementById("kerro").value = "";
+    document.getElementById("ika").value = "";
 }
 
 function kirjauduUlos(){
