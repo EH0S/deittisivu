@@ -15,17 +15,18 @@ function kirjauduSisaan() {
         document.getElementById("salasana").value = "";
     } else {
         let foundUser = tallennettuData.find(user => user.nimi === nimi && user.sana === sana);
+        console.log(foundUser)
 
         if (foundUser) {
-            let rooli = foundUser.rooli;
-            if (rooli === "mies") {
+            let sukupuoli = foundUser.sukupuoli;
+            if (sukupuoli === "mies") {
                 kirjautunut = nimi;
                 window.location.href = 'swipe.html';
                 localStorage.setItem("kirjautunut", nimi);
                 let findUser = tallennettuData.filter(user => user.nimi === nimi);
                 // laittaa kirjautuneen käyttäjän tiedot chatti osioon, pfp jne...
                 localStorage.setItem('yourProfile', JSON.stringify(findUser));
-            }
+            } 
         } else {
             inforuutu.innerHTML = "Väärä käyttäjänimi tai salasana!";
             document.getElementById("kayttajaNimi").value = "";
@@ -216,39 +217,29 @@ function tallenna() {
     let loggedUserName = localStorage.getItem('kirjautunut');
     let käyttäjät = JSON.parse(localStorage.getItem('käyttäjät')) || [];
     let loggedUserIndex = käyttäjät.findIndex(user => user.nimi === loggedUserName);
+    let loggedUser = käyttäjät[loggedUserIndex];
+    let newEmail = document.getElementById('sposti1').value;
+    let newAbout = document.getElementById('uuskerro').value;
 
     if (loggedUserIndex === -1) {
         console.log('User not logged in or found.');
         return;
     }
 
-    let loggedUser = käyttäjät[loggedUserIndex];
-
-    // Get the updated email value from the input field
-    let newEmail = document.getElementById('sposti1').value;
-
-    // Get the updated 'kerro itsestäsi' value from the input field
-    let newAbout = document.getElementById('uuskerro').value;
-
-    // Update the 'sahkoposti' and 'kerro' fields for the logged-in user with the new values
     loggedUser.sahkoposti = newEmail;
     loggedUser.kerro = newAbout;
 
-    // Get all input elements of type file for profile pictures
     const inputElements = document.querySelectorAll('input[type="file"][id^="uuskuva"]');
 
-    // Loop through each input file element
     inputElements.forEach((input, index) => {
-        if (input.files && input.files[0] && index < 3) { // Consider only the first three inputs
+        if (input.files && input.files[0] && index < 3) {
             const image = input.files[0];
             const reader = new FileReader();
             var profile = JSON.parse(localStorage.getItem('yourProfile'));
 
             reader.onload = function(event) {
-                // Save the image URLs directly at the respective indexes
                 loggedUser.images[index] = event.target.result;
 
-                // Update the corresponding preview image if needed
                 const previewImage = document.getElementById(`kuva${index + 1}`);
                 if (previewImage) {
                     previewImage.setAttribute('src', loggedUser.images[index]);
@@ -257,19 +248,13 @@ function tallenna() {
                 localStorage.setItem('yourProfile', JSON.stringify(profile));
                 console.log(`Profile picture ${index + 1} updated for ${loggedUserName}`);
 
-                // Store the modified user data back in the 'käyttäjät' array
                 käyttäjät[loggedUserIndex] = loggedUser;
 
-                // Update the 'käyttäjät' array in the local storage
                 localStorage.setItem('käyttäjät', JSON.stringify(käyttäjät));
             };
 
             reader.readAsDataURL(image);
         }
     });
-
-    // Update other user data as needed...
-
-    // Store the 'käyttäjät' array back in local storage after all updates
     localStorage.setItem('käyttäjät', JSON.stringify(käyttäjät));
 }
