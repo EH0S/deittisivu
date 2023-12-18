@@ -21,13 +21,10 @@ function kirjauduSisaan() {
             if (rooli === "mies") {
                 kirjautunut = nimi;
                 window.location.href = 'swipe.html';
-                inforuutu.innerHTML = `Moi <b>${kirjautunut}</b>! Tervetuloa deitti appiin.`;
                 localStorage.setItem("kirjautunut", nimi);
                 let findUser = tallennettuData.filter(user => user.nimi === nimi);
                 // laittaa kirjautuneen käyttäjän tiedot chatti osioon, pfp jne...
                 localStorage.setItem('yourProfile', JSON.stringify(findUser));
-            } else {
-                // Handle other roles or redirect as needed
             }
         } else {
             inforuutu.innerHTML = "Väärä käyttäjänimi tai salasana!";
@@ -43,7 +40,8 @@ function luoKayttaja(){
     inforuutu.innerHTML = "<i></i>";
 }
 
-function vahvistaKayttaja(){
+function vahvistaKayttaja() {
+    let existingUsers = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
     let sukupuoli = document.getElementById("Sukupuoli").value;
     let nimi = document.getElementById("uusiKayttajaNimi").value;
     let sana = document.getElementById("uusiSalasana").value;
@@ -52,18 +50,23 @@ function vahvistaKayttaja(){
     let kerro = document.getElementById("kerro").value;
     let ikä = document.getElementById("ika").value;
 
-    if(nimi.length < 3 || nimi.length > 20 || nimi.includes(" ") || nimi.includes(";") || nimi.includes("&") || nimi.includes("*") || nimi.includes("¤")){
-        inforuutu.innerHTML = " Nimen minimipituus on 3. ";
+    const isUsernameTaken = existingUsers.some(user => user.nimi.toLowerCase() === nimi.toLowerCase());
+
+    if (isUsernameTaken) {
+        inforuutu.innerHTML = "Käyttäjänimi on jo käytössä. Valitse toinen käyttäjänimi.";
         document.getElementById("uusiKayttajaNimi").value = "";
-    }  else if(sana.length < 3 || sana.includes(";")){
+    } else if (nimi.length < 3 || nimi.length > 20) {
+        inforuutu.innerHTML = "Nimen minimipituus on 3.";
+        document.getElementById("uusiKayttajaNimi").value = "";
+    } else if (sana.length < 3 || sana.includes(";")) {
         inforuutu.innerHTML = "Salasanassa tulee olla vähintään 3 merkkiä.";
         document.getElementById("uusiSalasana").value = "";
-    }  else if(puhelin.length < 9 || puhelin.includes(";")){
-        inforuutu.innerHTML = "Puhelin numerossa tulee olemaan vähintään 9 numeroa";
+    } else if (puhelin.length < 9 || puhelin.includes(";")) {
+        inforuutu.innerHTML = "Puhelinnumerossa tulee olla vähintään 9 numeroa.";
         document.getElementById("puh").value = "";
-    }   else {
+    } else {
   
-        // Initialize an object to store user data
+        
         let userData = {
             nimi,
             sukupuoli,
@@ -72,7 +75,7 @@ function vahvistaKayttaja(){
             sahkoposti,
             kerro,
             ikä,
-            images: [] // Store images in an array
+            images: [] 
         };
 
         // Function to handle image preview and storage
@@ -92,7 +95,6 @@ function vahvistaKayttaja(){
                     let pfp = event.target.result;
                     userData.images.push(pfp);
     
-                    // Store the user data in localStorage after all images are loaded
                     if (userData.images.length >= 3) {
                         var userDatas = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
                         userDatas.push(userData)
@@ -112,6 +114,9 @@ function vahvistaKayttaja(){
                 reader.readAsDataURL(image);
             }
         }
+        handleImagePreview("thumbnailRegister");
+        handleImagePreview("thumbnailRegister2");
+        handleImagePreview("thumbnailRegister3");
     }
 }
 
@@ -121,7 +126,6 @@ function Paivita() {
     const previewImage2 = document.getElementById('preview1');
     const previewImage3 = document.getElementById('preview2');
 
-    // Function to handle image preview and storage
     function handleImagePreview(inputId, previewImage) {
         const input = document.getElementById(inputId);
         const image = input.files[0];
@@ -132,7 +136,6 @@ function Paivita() {
             reader.onload = function (event) {
                 let pfp = event.target.result;
 
-                // Update the preview image source
                 if (previewImage) {
                     previewImage.setAttribute('src', pfp);
                 }
@@ -146,8 +149,6 @@ function Paivita() {
     handleImagePreview("thumbnailRegister2", previewImage2);
     handleImagePreview("thumbnailRegister3", previewImage3);
 }
-
-// Call this function when the button is clicked
 
 
 function peruutaAlkuun(){
@@ -171,11 +172,9 @@ function kirjauduUlos(){
 //avaa editoi sivun
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.href.endsWith("asetukset.html")) {
-        let nimi = localStorage.getItem('kirjautunut'); // Get the logged-in username
+        let nimi = localStorage.getItem('kirjautunut'); 
         let tallennettuData = JSON.parse(localStorage.getItem('käyttäjät') || '[]');
         
-
-        // Find the user by their name
         let foundUser = tallennettuData.find(user => user.nimi === nimi);
 
         if (foundUser) {
