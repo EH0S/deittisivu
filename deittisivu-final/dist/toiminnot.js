@@ -1,9 +1,7 @@
 var kirjautunut = null;
-var avaaja = null;
 var inforuutu = document.getElementById("info");
 
 function kirjauduSisaan() {
-
     let nimi = document.getElementById("kayttajaNimi").value;
     let sana = document.getElementById("salasana").value;
     
@@ -67,7 +65,6 @@ function vahvistaKayttaja() {
         document.getElementById("puh").value = "";
     } else {
   
-        
         let userData = {
             nimi,
             sukupuoli,
